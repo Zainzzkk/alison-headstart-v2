@@ -3,9 +3,11 @@ import HeadstartLogo from '../../assets/HeadstartLogo.png';
 import './MainPage.css';
 
 import Button from 'react-bootstrap/Button';
-
+import { useNavigate } from 'react-router-dom';
 
 function MainPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="App">
       <div>
@@ -23,33 +25,33 @@ function MainPage() {
       <div>
         <h3 class="Button-title-h3">Upload files / Update database</h3>
         <div class="Button-row">
-          <Button variant="secondary">UPDATE CERTIFICATE CODES</Button>
-          <Button variant="secondary">UPDATE DIPLOMA CODES</Button>
-          <Button variant="success">UPDATE COMPLETION</Button>
-          <Button variant="warning">UPDATE COURSES CATALOGUE</Button>
+          <Button variant="secondary" onClick={() => navigate('/upload-course-codes')}>UPDATE CERTIFICATE CODES</Button>
+          <Button variant="secondary" onClick={() => navigate('/upload-diploma-codes')}>UPDATE DIPLOMA CODES</Button>
+          <Button variant="success" onClick={() => navigate('/update-completion')}>UPDATE COMPLETION</Button>
+          <Button variant="warning" onClick={() => navigate('/upload-courses-catalogue')}>UPDATE COURSES CATALOGUE</Button>
         </div>
       </div>
 
       <div>
         <h3 class="Button-title-h3">Certificate/Courses Actions</h3>
         <div class="Button-row">
-          <Button variant="primary">REVIEW COURSES</Button>
-          <Button variant="primary">REVIEW PROGRESS</Button>
+          <Button variant="primary" onClick={() => navigate('/review-courses')}>REVIEW COURSES</Button>
+          <Button variant="primary" onClick={() => navigate('/review-progress')}>REVIEW PROGRESS</Button>
         </div>
       </div>
 
       <div>
         <h3 class="Button-title-h3">Learners/Reporting Tool</h3>
         <div class="Button-row">
-          <Button variant="danger">UPDATE LEARNERS</Button>
-          <Button variant="dark">REVIEW LEARNERS</Button>
+          <Button variant="danger" onClick={() => navigate('/update-learners')}>UPDATE LEARNERS</Button>
+          <Button variant="dark" onClick={() => navigate('/review-learners')}>REVIEW LEARNERS</Button>
         </div>
       </div>
 
       <div>
         <h3 class="Button-title-h3">Learners info</h3>
         <div class="Button-row">
-          <Button variant="info">UPDATE LEARNERS INFO</Button>
+          <Button variant="info" onClick={() => navigate('/update-learners-info')}>UPDATE LEARNERS INFO</Button>
         </div>
       </div>
     </div>
