@@ -1,22 +1,21 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AlisonLogo from '../../assets/AlisonLogo.png';
 import HeadstartLogo from '../../assets/HeadstartLogo.png';
 
-import { useNavigate } from 'react-router-dom';
-
-
 function ReviewCourses() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    return (
-        <div>
-            <div>
-                <header class="image-align">
-                <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" onClick={() => navigate('/')}/>
-                <img src={HeadstartLogo} className="Headstart-logo" alt="Headstart Logo" onClick={() => navigate('/')}/>
-                </header>
-            </div>
-        </div>
-    )
+  return (
+    <div>
+      <div>
+        <header className="image-align">
+          <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" onClick={() => navigate('/')} />
+          <img src={HeadstartLogo} className="Headstart-logo" alt="Headstart Logo" onClick={() => navigate('/')} />
+        </header>
+      </div>
+    </div>
+  );
 }
 
 export default ReviewCourses;
