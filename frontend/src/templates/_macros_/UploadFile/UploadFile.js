@@ -28,7 +28,7 @@ function UploadFile() {
 
   return (
     <div {...getRootProps()}>
-      <Button variant="primary">
+      <Button variant="upload">
         <input {...getInputProps()} />
         <p>Either drag or drop files here</p>
       </Button>
