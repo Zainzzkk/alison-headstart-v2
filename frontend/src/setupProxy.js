@@ -7,7 +7,7 @@ module.exports = function (app) {
       target: COURSESAPIURL.ADDRESS,
       changeOrigin: true,
       pathRewrite: {
-        '^/courses-api': '',
+        '^/courses-api': '/',
       },
       headers: {
         Connection: 'keep-alive',

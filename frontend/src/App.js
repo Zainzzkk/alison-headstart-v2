@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import MainPage from './templates/MainPage/MainPage';
@@ -13,13 +13,6 @@ import UploadDiplomaCodes from './templates/UploadDiplomaCodes/UploadDiplomaCode
 import UploadCoursesCatalogue from './templates/UploadCoursesCatalogue/UploadCoursesCatalogue';
 
 function App() {
-  useEffect(() => {
-    fetch('/courses-api/api')
-      .then((res) => res.json())
-      .then((res) => {
-        console.log('Output 1:', res);
-      });
-  }, []);
   return (
     <div className="App">
       <Routes>

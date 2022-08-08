@@ -1,17 +1,21 @@
 const express = require("express");
-const bodyParser = require('body-parser');
+
+const courseCodeRoutes = require('./routes/courses-codes');
+const sequelize = require('../config/database');
+
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-app.use(bodyParser.json({ limit: '100mb' }));
+sequelize.authenticate()
+  .then(() => console.log('Database connected...'))
+  .catch((err) => console.log(err));
+
+app.use(express.json({ limit: '100mb' }))
 
 app.use(express.urlencoded({ extended: true }));
-
-app.get("/api", (req, res) => {
-  console.log('hiiii');
-});
+courseCodeRoutes(app);
 
 
 app.listen(PORT, () => {

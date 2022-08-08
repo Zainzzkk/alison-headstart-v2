@@ -27,7 +27,7 @@ function UploadCourseCodes() {
       </div>
 
       <div className="fileUploadSection">
-        <UploadFile />
+        <UploadFile uploadType="course-codes" />
       </div>
     </div>
   );

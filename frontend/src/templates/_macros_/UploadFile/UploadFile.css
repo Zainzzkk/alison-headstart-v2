@@ -2,3 +2,16 @@
   background-color: gray;
   width: 50vw;
 }
+
+.upload-div {
+  margin-top: 4vh;
+}
+
+.upload-status {
+  margin-top: 2vh;
+}
+
+.upload-button {
+  height: 10vh;
+  width: 10vw;
+}
