@@ -1,7 +1,7 @@
-const uploadCourseCodes = async (fileContents) => {
+const uploadDiplomaCodes = async (fileContents) => {
   try {
     // sends to courses-api with uploaded file as array and returns response
-    return fetch('/courses-api/course-codes/upload', {
+    return fetch('/courses-api/diploma-codes/upload', {
       method: 'POST', // or 'PUT'
       mode: 'cors',
       headers: {
@@ -16,9 +16,9 @@ const uploadCourseCodes = async (fileContents) => {
         return data;
       });
   } catch (err) {
-    console.error('Error sending upload certificate codes to courses-api', { err });
-    return 'Error sending upload certificate codes to courses-api';
+    console.error('Error sending upload diploma codes to courses-api', { err });
+    return 'Error sending upload diploma codes to courses-api';
   }
 };
 
-module.exports = { uploadCourseCodes };
+module.exports = { uploadDiplomaCodes };
