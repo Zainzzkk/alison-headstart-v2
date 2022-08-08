@@ -1,6 +1,7 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const { COURSESAPIURL } = require('./constants');
 
+// eslint-disable-next-line func-names
 module.exports = function (app) {
   app.use(
     createProxyMiddleware('/courses-api', {
