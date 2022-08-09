@@ -1,6 +1,7 @@
 import * as excel from 'xlsx/xlsx.mjs';
 import { uploadCourseCodes } from '../CourseCodes/uploadCourseCodes';
 import { uploadDiplomaCodes } from '../DiplomaCodes/uploadDiplomaCodes';
+import { uploadAlisonCatalogue } from '../AlisonCatalogue/upload-alison-catalogue';
 
 export function open(uri) {
   try {
@@ -25,6 +26,11 @@ async function uploadDiplomaCodesCall(fileContents) {
   return response;
 }
 
+async function uploadAlisonCatalogueCall(fileContents) {
+  const response = await uploadAlisonCatalogue(fileContents);
+  return response;
+}
+
 // checks what type of upload is required and calls relevant function
 export function uploadFileToApi(fileContents, type) {
   switch (type) {
@@ -33,6 +39,9 @@ export function uploadFileToApi(fileContents, type) {
 
     case 'diploma-codes':
       return uploadDiplomaCodesCall(fileContents);
+
+    case 'alison-catalogue':
+      return uploadAlisonCatalogueCall(fileContents);
 
     default:
       console.error('no data or type provided');
