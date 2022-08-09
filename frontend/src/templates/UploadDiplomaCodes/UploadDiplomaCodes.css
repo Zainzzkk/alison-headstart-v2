@@ -1,0 +1,27 @@
+.Page {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  text-align: center;
+  margin-top: 3vh;
+}
+
+.h1-style {
+  font-size: 5vh;
+}
+
+.h2-style {
+  font-size: 3vh;
+}
+
+.h3-style {
+  font-size: 2.5vh;
+  font-weight: 300;
+}
+
+.fileUploadSection {
+  margin-top: 5vh;
+}

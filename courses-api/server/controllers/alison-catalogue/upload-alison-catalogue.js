@@ -7,6 +7,11 @@ const uploadAlisonCatalogue = (req, res) => {
     const courseCatalogueReceived = req.body;
     const courseCatalogue = [];
 
+    // if no body or empty array then returns 400
+    if (!req.body || req.body.length < 1) {
+      return res.status(400).send('File has no contents');
+    }
+
     courseCatalogueReceived.map((course) => {
       // stored as course ID and Course Name in spreadsheet
       const courseToAdd = {
