@@ -17,6 +17,7 @@ const uploadLearnersStats = (req, res) => {
         AgeBand: learner['Age Band'],
         Gender: learner.Gender,
         Jamatkhana: learner.Jamatkhana,
+        // converts from decimal hours to seconds
         TotalDuration: convertTotalDurationToEpoch(learner['Total Duration']),
         NumberCourses: learner['Number of Courses'],
       }
