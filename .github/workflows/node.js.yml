@@ -10,6 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./courses-api/
+
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
@@ -22,6 +26,7 @@ jobs:
         with:
           node-version: "16"
           cache: "npm"
+          cache-dependency-path: "./courses-api/package-lock.json"
       - run: npm ci --legacy-peer-deps
       - run: npm run lint
       - run: npm ci
