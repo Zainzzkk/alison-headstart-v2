@@ -1,6 +1,10 @@
-// timestamp received in number of hours as decimal so converting to seconds
+// timestamp received in decimal out of 24hrs so converting to seconds
 const convertTotalDurationToEpoch = (timestamp) => {
-  const timestampInHours = timestamp * 24;
+  if (timestamp === null || timestamp === undefined) {
+    return null;
+  }
+
+  const timestampInHours = parseFloat(timestamp) * 24;
   const timestampInSeconds = Math.round(timestampInHours * 60 * 60);
   return timestampInSeconds;
 }
