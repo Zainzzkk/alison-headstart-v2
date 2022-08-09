@@ -3,6 +3,7 @@ const express = require("express");
 const courseCodeRoutes = require('./routes/courses-codes');
 const diplomaCodeRoutes = require('./routes/diploma-codes');
 const alisonCatalogueRoutes = require('./routes/alison-catalogue');
+const learnersStats = require('./routes/learners-stats');
 const sequelize = require('../config/database');
 
 
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 courseCodeRoutes(app);
 diplomaCodeRoutes(app);
 alisonCatalogueRoutes(app);
+learnersStats(app);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
