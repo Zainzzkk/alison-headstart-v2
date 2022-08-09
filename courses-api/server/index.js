@@ -2,6 +2,7 @@ const express = require("express");
 
 const courseCodeRoutes = require('./routes/courses-codes');
 const diplomaCodeRoutes = require('./routes/diploma-codes');
+const alisonCatalogueRoutes = require('./routes/alison-catalogue');
 const sequelize = require('../config/database');
 
 
@@ -18,6 +19,7 @@ app.use(express.json({ limit: '100mb' }))
 app.use(express.urlencoded({ extended: true }));
 courseCodeRoutes(app);
 diplomaCodeRoutes(app);
+alisonCatalogueRoutes(app);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
