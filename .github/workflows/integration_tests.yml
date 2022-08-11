@@ -33,7 +33,7 @@ jobs:
     env:
       NODE_ENV: test
       DATABASE_URL: postgresql://postgres:password@localhost:5432/HeadstartTest2
-      API_USERNAME: HeadstartTest2
+      API_USERNAME: postgres
       API_PASSWORD: password
 
     defaults:
