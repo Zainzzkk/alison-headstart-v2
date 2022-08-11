@@ -10,6 +10,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        # `POSTGRES_HOST` is `postgres`
+        env:
+          POSTGRES_DB: HeadstartTest2
+          POSTGRES_PASSWORD: password
+          # optional (defaults to `5432`)
+          POSTGRES_PORT: 5434
+          # optional (defaults to `postgres`)
+          POSTGRES_USER: postgres
+        ports:
+          - 5434:5434
+        # set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     defaults:
       run:
         working-directory: ./courses-api/
