@@ -13,33 +13,21 @@ jobs:
 
     services:
       postgres:
-        image: postgres:latest
-        # `POSTGRES_HOST` is `postgres`
+        image: postgres:14-alpine
         env:
-          POSTGRES_DB: HeadstartTest2
-          POSTGRES_PASSWORD: password
-          # optional (defaults to `5432`)
-          POSTGRES_PORT: 5434
-          # optional (defaults to `postgres`)
+          POSTGRES_DB: app
           POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 123
         ports:
-          - 5434:5434
-        # set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          - 5432:5432
 
     env:
       NODE_ENV: test
-      DATABASE_URL: postgresql://postgres:password@localhost:5434/HeadstartTest2
       API_USERNAME: postgres
-      API_PASSWORD: password
-      # The hostname used to communicate with the PostgreSQL service container
-      POSTGRES_HOST: postgres
-      # The default PostgreSQL port
-      POSTGRES_PORT: 5432
+      API_PASSWORD: 123
+      POSTGRES_DB: app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
 
     defaults:
       run:
