@@ -13,21 +13,23 @@ jobs:
 
     services:
       postgres:
-        image: postgres:14-alpine
+        image: postgres
         env:
-          POSTGRES_DB: HeadstartTest2
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 123
+          POSTGRES_PASSWORD: postgres
         ports:
-          - 5434:5434
+          - 5434/tcp
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     env:
       NODE_ENV: test
       API_USERNAME: postgres
-      API_PASSWORD: 123
-      POSTGRES_DB: HeadstartTest2
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
+      API_PASSWORD: postgres
+      PG_HOST: postgres
+      PG_USER: postgres
+      PG_DATABASE: postgres
+      PG_PASSWORD: postgres
+      PG_PORT: ${{ job.services.postgres.ports['5432'] }}
 
     defaults:
       run:
