@@ -30,6 +30,12 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://postgres:password@localhost:5432/HeadstartTest2
+      API_USERNAME: HeadstartTest2
+      API_PASSWORD: password
+
     defaults:
       run:
         working-directory: ./courses-api/
