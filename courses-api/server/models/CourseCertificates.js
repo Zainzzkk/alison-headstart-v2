@@ -5,6 +5,7 @@ const CourseCertificates = db.define('CourseCertificates', {
   Code: {
     type: Sequelize.STRING,
     primaryKey: true,
+    unique: true,
   },
   Type: {
     type: Sequelize.STRING,

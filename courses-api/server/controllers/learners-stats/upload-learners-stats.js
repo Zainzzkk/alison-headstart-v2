@@ -1,54 +1,67 @@
 const Learners = require('../../models/Learners');
 const convertTotalDurationToEpoch = require('../../helpers/convertTotalDurationToEpoch.helper');
 
-const uploadLearnersStats = (req, res) => {
-  try {
-    const learnersStatsUploaded = req.body;
-    const learnerStats = [];
+const uploadLearnersStatsController = async (learnersStatsUploaded) => {
+  const learnerStats = [];
 
-    // if no body or empty array then returns 400
-    if (!req.body || req.body.length < 1) {
-      return res.status(400).send('File has no contents');
+  // if no body or empty array then returns 400
+  if (!learnersStatsUploaded || learnersStatsUploaded < 1) {
+    return {
+      status: 400,
+      message: 'File has no contents'
+    };
+  }
+
+  learnersStatsUploaded.map((learner) => {
+    const learnerToUpload = {
+      ID: learner['IIUK ID'],
+      AgeBand: learner['Age Band'],
+      Gender: learner.Gender,
+      Jamatkhana: learner.Jamatkhana,
+      // converts from decimal hours to seconds
+      TotalDuration: convertTotalDurationToEpoch(learner['Total Duration']),
+      NumberCourses: learner['Number of Courses'],
     }
+    learnerStats.push(learnerToUpload);
+  });
 
-    learnersStatsUploaded.map((learner) => {
-      const learnerToUpload = {
-        ID: learner['IIUK ID'],
-        AgeBand: learner['Age Band'],
-        Gender: learner.Gender,
-        Jamatkhana: learner.Jamatkhana,
-        // converts from decimal hours to seconds
-        TotalDuration: convertTotalDurationToEpoch(learner['Total Duration']),
-        NumberCourses: learner['Number of Courses'],
+  const response = await Learners.bulkCreate(learnerStats,
+    {
+      updateOnDuplicate: ['ID', 'AgeBand', 'Gender',
+        'Jamatkhana', 'TotalDuration', 'NumberCourses'],
+    })
+    .then(() => {
+      return {
+        status: 200,
+        message: 'Uploaded the the learner stats data successfully',
       }
-      learnerStats.push(learnerToUpload);
+    })
+    .catch((error) => {
+      console.error('Error uploading learner stats data', { error });
+      return {
+        status: 500,
+        message: `Fail to import learners stats data into database! ${error}`,
+      }
     });
 
-    Learners.bulkCreate(learnerStats,
-      {
-        updateOnDuplicate: ['ID', 'AgeBand', 'Gender',
-          'Jamatkhana', 'TotalDuration', 'NumberCourses'],
-      })
-      .then(() => {
-        res.status(200).send({
-          message: 'Uploaded the the learner stats data successfully',
-        });
-      })
-      .catch((error) => {
-        console.error('Error uploading learner stats data', error.message);
-        res.status(500).send({
-          message: 'Fail to import learners stats data into database!',
-          error: error.message,
-        });
-      });
+  return response
+}
+
+const uploadLearnersStats = async (req, res) => {
+  try {
+    const learnersStatsUploaded = req.body;
+
+    const { status, message } = await uploadLearnersStatsController(learnersStatsUploaded);
+
+    res.status(status).send({ message });
   } catch (error) {
-    console.error('Error uploading learners stats data to the database');
+    console.error('Try-catch uploadLearnersStats - Error uploading learners stats data to the database', { error });
     res.status(500).send({
-      message: 'Fail to import learners stats data into database!',
+      message: `Try-catch uploadLearnersStats - Failed to import learners stats data into database! ${error}`,
       error: error.message,
     });
   }
 
 };
 
-module.exports = { uploadLearnersStats };
+module.exports = { uploadLearnersStats, uploadLearnersStatsController };
