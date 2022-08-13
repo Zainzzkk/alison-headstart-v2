@@ -10,26 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5434/tcp
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-    env:
-      NODE_ENV: test
-      API_USERNAME: postgres
-      API_PASSWORD: postgres
-      PG_HOST: localhost
-      PG_USER: postgres
-      PG_DATABASE: postgres
-      PG_PASSWORD: postgres
-      PG_PORT: 5434
-
     defaults:
       run:
         working-directory: ./courses-api/
@@ -50,17 +30,4 @@ jobs:
       - run: npm ci --legacy-peer-deps
       - run: npm run lint --if-present
       - run: npm ci
-      - run: npm run build --if-present
-      - run: |
-          sudo apt-get update
-          sudo apt-get install --yes postgresql-client
-
-      # queries database with postgres client
-      - name: Query database
-        run: psql -h postgres -d postgres -U postgres -c 'SELECT 1;'
-        env:
-          # postgress password is required; alternatively, you can run:
-          # `PGPASSWORD=postgres_password psql ...`
-          PGPASSWORD: postgres
-      - run: npm start
       - run: npm test
