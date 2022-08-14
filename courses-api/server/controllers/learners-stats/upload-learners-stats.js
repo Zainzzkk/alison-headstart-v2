@@ -5,7 +5,7 @@ const uploadLearnersStatsController = async (learnersStatsUploaded) => {
   const learnerStats = [];
 
   // if no body or empty array then returns 400
-  if (!learnersStatsUploaded || learnersStatsUploaded < 1) {
+  if (!learnersStatsUploaded || learnersStatsUploaded.length < 1) {
     return {
       status: 400,
       message: 'File has no contents'

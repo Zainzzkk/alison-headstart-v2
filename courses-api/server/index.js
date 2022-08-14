@@ -4,6 +4,7 @@ const courseCodeRoutes = require('./routes/courses-codes');
 const diplomaCodeRoutes = require('./routes/diploma-codes');
 const alisonCatalogueRoutes = require('./routes/alison-catalogue');
 const learnersStats = require('./routes/learners-stats');
+const courseCompletion = require('./routes/course-completion');
 const sequelize = require('../config/database');
 
 
@@ -22,6 +23,7 @@ courseCodeRoutes(app);
 diplomaCodeRoutes(app);
 alisonCatalogueRoutes(app);
 learnersStats(app);
+courseCompletion(app);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
