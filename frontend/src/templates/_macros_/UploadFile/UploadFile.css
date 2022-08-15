@@ -15,3 +15,26 @@
   height: 10vh;
   width: 10vw;
 }
+
+.course-input-div {
+  margin-top: 10vh;
+}
+
+input {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2vw;
+}
+
+.modal-body {
+  text-align: center;
+}
+
+.firstModalItem {
+  margin-top: 3vh;
+}
+
+.confirm-button {
+  background-color: red;
+  color: black;
+}

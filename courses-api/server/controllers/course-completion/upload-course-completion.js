@@ -13,11 +13,13 @@ const uploadCourseStatusRaws = async (courseCompletionsUploaded) => {
       LearnerID: parseInt(course['IIUK ID']),
       CourseID: course['Course ID'],
       CourseName: course['Course Name'],
-      Completion: course.Completed,
+      Completion: parseInt(course.Completed),
       Time: convertToSeconds(course['Total Duration']),
     };
     courseCompletion.push(courseToAdd);
   });
+
+  console.log(courseCompletion)
 
   // removes triplicates/quadruplicates with same id and course name
   const filterRaw = courseCompletion.filter((value, index, self) =>
@@ -122,6 +124,33 @@ const uploadCourseCompletionController = async (courseCompletionsUploaded) => {
 
 }
 
+const uploadManualCourseCompletionController = async (courseCompletionsUploaded) => {
+  // if no body or empty array then returns 400
+  if (!courseCompletionsUploaded || courseCompletionsUploaded.length < 1 || (courseCompletionsUploaded[0].LearnerID === '' || courseCompletionsUploaded[0].CourseID === '')) {
+    return {
+      status: 400,
+      message: 'File has no contents'
+    };
+  }
+
+  const { status, message } = await uploadCourseStatusRaws(courseCompletionsUploaded);
+  // if raw upload succeeds then inserts filtered data
+  if (status === 200) {
+    const { status: secondStatus, message: secondMessage } = await uploadFilteredUniqueCourses(courseCompletionsUploaded);
+
+    return {
+      status: secondStatus,
+      message: secondMessage
+    }
+  } else {
+    return {
+      status,
+      message,
+    }
+  }
+
+}
+
 const uploadCourseCompletionStats = async (req, res) => {
   try {
     const courseCompletionStatsUploaded = req.body;
@@ -139,4 +168,23 @@ const uploadCourseCompletionStats = async (req, res) => {
 
 };
 
-module.exports = { uploadCourseCompletionController, uploadCourseCompletionStats }
+
+const uploadCourseCompletionStatsManual = async (req, res) => {
+  try {
+    const courseCompletionStatsUploaded = req.body;
+
+    const { status, message } = await uploadManualCourseCompletionController(courseCompletionStatsUploaded);
+
+    res.status(status).send({ message });
+  } catch (error) {
+    console.error('Try-catch uploadCourseCompletionStatsManual - Error uploading manual course completion stats data to the database', { error });
+    res.status(500).send({
+      message: `Try-catch uploadCourseCompletionStatsManual - Failed to import manual course completion stats data into database! ${error}`,
+      error: error.message,
+    });
+  }
+
+};
+
+
+module.exports = { uploadCourseCompletionController, uploadCourseCompletionStats, uploadCourseCompletionStatsManual }
