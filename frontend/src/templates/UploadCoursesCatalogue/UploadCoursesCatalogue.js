@@ -17,8 +17,8 @@ function UploadCourseCodes() {
       </div>
 
       <div className="header">
-        <h1 className="h1-style">Update Courses</h1>
-        <h2 className="h2-style">Please use this page to update diploma codes/allocations</h2>
+        <h1 className="h1-style">Update Course Catalogue</h1>
+        <h2 className="h2-style">Please use this page to update Alison course catalogue</h2>
         <h3 className="h3-style">Please use this page to update Headstart Alison courses (from the alison course catalogue)</h3>
         <h3 className="h3-style">Click upload button</h3>
         <h3 className="h3-style">Review if any errors</h3>
