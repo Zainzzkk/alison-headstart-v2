@@ -1,26 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DataGrid from 'react-data-grid';
+import Button from 'react-bootstrap/Button';
 import AlisonLogo from '../../assets/AlisonLogo.png';
 import HeadstartLogo from '../../assets/HeadstartLogo.png';
+import Spreadsheet from '../_macros_/Spreadsheet/Spreadsheet';
 
 import './ReviewCourses.css';
 
 function ReviewCourses() {
   const navigate = useNavigate();
 
-  const columns = [
-    { key: 'id', name: 'ID' },
-    { key: 'title', name: 'Title' },
-  ];
-
-  const rows = [
-    { id: 0, title: 'Example' },
-    { id: 1, title: 'Demo' },
-  ];
+  const [getSpreadsheet, setGetSpreadsheet] = useState(false);
 
   return (
-    <div>
+    <div className="Page">
       <div>
         <header className="image-align">
           <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" onClick={() => navigate('/')} />
@@ -33,8 +26,18 @@ function ReviewCourses() {
         <h3 className="h3-style">Press on button to view content (please wait to render). Press button again to hide</h3>
       </div>
 
-      <DataGrid columns={columns} rows={rows} className="rdg-light" />
+      <div className="button-div">
+        <Button className="button-nav" onClick={() => { setGetSpreadsheet((prevState) => !prevState); }}>Get Courses</Button>
+        <Button className="button-nav">Get Graphs</Button>
+      </div>
 
+      <div className="spreadsheet-div">
+        {getSpreadsheet ? <Spreadsheet whichSheet="get-courses" /> : null}
+      </div>
+
+      <div>
+        Test
+      </div>
     </div>
   );
 }

@@ -1,0 +1,11 @@
+.spreadsheet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+button.MuiButtonBase-root {
+    margin: 1px;
+    width: 30px;
+}

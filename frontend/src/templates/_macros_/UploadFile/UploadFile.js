@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import { BsCloudUpload } from 'react-icons/bs';
 import { FcUpload } from 'react-icons/fc';
 import PropTypes from 'prop-types';
-import IconButton from '@mui/material/IconButton';
+import { IconButton } from '@mui/material';
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
