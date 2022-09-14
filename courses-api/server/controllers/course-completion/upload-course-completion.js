@@ -67,7 +67,7 @@ const uploadFilteredUniqueCourses = async (courseCompletionsUploaded) => {
 
   const coursesToInsert = [];
   // creates array with format for database
-  singleCourses.map((eachCourse) => {
+  singleCourses.forEach((eachCourse) => {
     const courseToAdd = {
       LearnerID: parseInt(eachCourse['IIUK ID']),
       CourseID: eachCourse['Course ID'],
