@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import AlisonLogo from '../../assets/AlisonLogo.png';
 import HeadstartLogo from '../../assets/HeadstartLogo.png';
 import Spreadsheet from '../_macros_/Spreadsheet/Spreadsheet';
+import CourseGraphs from '../_macros_/CourseGraphs/CourseGraphs';
 
 import './ReviewCourses.css';
 
@@ -11,6 +12,7 @@ function ReviewCourses() {
   const navigate = useNavigate();
 
   const [getSpreadsheet, setGetSpreadsheet] = useState(false);
+  const [getGraphs, setGetGraphs] = useState(false);
 
   return (
     <div className="Page">
@@ -27,8 +29,8 @@ function ReviewCourses() {
       </div>
 
       <div className="button-div">
-        <Button className="button-nav" onClick={() => { setGetSpreadsheet((prevState) => !prevState); }}>Get Courses</Button>
-        <Button className="button-nav">Get Graphs</Button>
+        <Button className="button-nav" onClick={() => { setGetSpreadsheet((prevState) => !prevState); setGetGraphs(() => false); }}>Get Courses</Button>
+        <Button className="button-nav" onClick={() => { setGetGraphs((prevState) => !prevState); setGetSpreadsheet(() => false); }}>Get Graphs</Button>
       </div>
 
       <div className="spreadsheet-div">
@@ -36,7 +38,7 @@ function ReviewCourses() {
       </div>
 
       <div>
-        Test
+        {getGraphs ? <CourseGraphs /> : null}
       </div>
     </div>
   );
