@@ -16,7 +16,7 @@ const getAllLearners = async () => {
       });
   } catch (err) {
     console.error('Error getting all learners stats from courses-api', { err });
-    return 'Error getting all learners stats from courses-api';
+    return { message: 'Error getting all learners stats from courses-api' };
   }
 };
 
