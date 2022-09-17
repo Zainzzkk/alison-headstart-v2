@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import AlisonLogo from '../../assets/AlisonLogo.png';
 import HeadstartLogo from '../../assets/HeadstartLogo.png';
 import Spreadsheet from '../_macros_/Spreadsheet/Spreadsheet';
 import CourseGraphs from '../_macros_/CourseGraphs/CourseGraphs';
+import getAlisonCatalogue from '../../controllers/AlisonCatalogue/get-alison-catalogue';
 
 import './ReviewCourses.css';
 
 function ReviewCourses() {
   const navigate = useNavigate();
 
+  const [courseData, setCourseData] = useState([]);
   const [getSpreadsheet, setGetSpreadsheet] = useState(false);
   const [getGraphs, setGetGraphs] = useState(false);
+
+  // useEffect so only called once instead of spamming
+  useEffect(() => {
+    const getDataFromApi = () => {
+      getAlisonCatalogue().then((response) => {
+        if (response.length) {
+          setCourseData(response);
+        }
+      });
+    };
+
+    getDataFromApi();
+  }, []);
 
   return (
     <div className="Page">
@@ -34,11 +49,11 @@ function ReviewCourses() {
       </div>
 
       <div className="spreadsheet-div">
-        {getSpreadsheet ? <Spreadsheet whichSheet="get-courses" /> : null}
+        {getSpreadsheet ? <Spreadsheet whichSheet="get-courses" data={courseData} /> : null}
       </div>
 
       <div>
-        {getGraphs ? <CourseGraphs /> : null}
+        {getGraphs ? <CourseGraphs data={courseData} /> : null}
       </div>
     </div>
   );

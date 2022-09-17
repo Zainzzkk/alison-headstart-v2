@@ -2,28 +2,37 @@ import {
   PieChart, Pie, ResponsiveContainer, Sector,
 } from 'recharts';
 import React, { useState, useEffect } from 'react';
-import getCourseCatalogueData from '../../../controllers/Graphs/getCourseGraphs';
+import PropTypes from 'prop-types';
+import processCourseCatalogueData from '../../../controllers/Graphs/getCourseGraphs';
 
 import './CourseGraphs.css';
 
-function CourseGraphs() {
+function CourseGraphs(props) {
+  // default props to remove errors
+  CourseGraphs.defaultProps = {
+    data: [],
+  };
+  CourseGraphs.propTypes = {
+    data: PropTypes.array, // eslint-disable-line
+  };
+
+  const { data } = props;
+
   const [certificates, setCertificates] = useState(0);
   const [diplomas, setDiplomas] = useState(0);
 
-  // only calls api once
+  // only calls mapping once
   useEffect(() => {
-    const getDataFromApi = () => {
-      getCourseCatalogueData().then((response) => {
-        // sets certificate total and diploma total
-        setCertificates(response.certificates);
-        setDiplomas(response.diplomas);
-      });
+    const processGraphData = () => {
+      const processedData = processCourseCatalogueData(data);
+      setCertificates(processedData.certificates);
+      setDiplomas(processedData.diplomas);
     };
-    getDataFromApi();
+    processGraphData();
   }, []);
 
   // data for pie charts
-  const data = [
+  const pieChartData = [
     { name: 'Diplomas', value: diplomas, fill: '#034FF1' },
     { name: 'Certificates', value: certificates, fill: '#0F7202' },
   ];
@@ -83,7 +92,7 @@ function CourseGraphs() {
       <ResponsiveContainer height="100%" width="100%">
         <PieChart>
           <Pie
-            data={data}
+            data={pieChartData}
             dataKey="value"
             cx={400}
             cy={275}
