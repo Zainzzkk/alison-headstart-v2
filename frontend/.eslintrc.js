@@ -24,5 +24,6 @@ module.exports = {
     'jsx-a11y/no-noninteractive-element-interactions': 0,
     'react/jsx-props-no-spreading': 'off',
     'no-console': 0,
+    'no-mixed-operators': 0,
   },
 };

@@ -1,15 +1,10 @@
-import getAlisonCatalogue from '../AlisonCatalogue/get-alison-catalogue';
-
-// call for alison catalogue data
-async function getAlisonCatalogueCall() {
-  const courses = await getAlisonCatalogue();
-
+export default function processCourseCatalogueData(data) {
   // counters initialisation
   let certificates = 0;
   let diplomas = 0;
 
   // loops through courses
-  courses.forEach((course) => {
+  data.forEach((course) => {
     // adds to counter
     if (course.Type === 'Diploma') {
       diplomas += 1;
@@ -22,8 +17,4 @@ async function getAlisonCatalogueCall() {
     certificates,
     diplomas,
   };
-}
-
-export default function getCourseCatalogueData() {
-  return getAlisonCatalogueCall();
 }
