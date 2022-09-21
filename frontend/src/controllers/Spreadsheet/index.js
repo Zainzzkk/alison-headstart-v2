@@ -1,4 +1,8 @@
 import convertSecondsToTimestamp from '../../helpers/convertSecondsToTimestamp';
+import getJamatKhanaGraph from '../Graphs/getJamatKhanaGraph';
+import processJamatkhanaGraphData from '../../helpers/processJamatkhanaGraphData';
+
+import { EUROPE_CITIES } from '../../constants';
 
 // mapping for alison catalogue data
 function getAlisonCatalogueCall(data) {
@@ -58,6 +62,34 @@ function processAllLearners(data) {
   return rowsAndColumns;
 }
 
+function processAllJKs(data) {
+  // contains rows and columns for spreadsheet
+  const rowsAndColumns = {
+    rows: [],
+    columns: [
+      { field: 'id', headerName: 'Jamatkhana', width: 400 },
+      { field: 'total', headerName: 'Total', width: 200 },
+      { field: 'percentage', headerName: 'Percentage', width: 200 },
+    ],
+  };
+  // gets object with totals for each jk
+  const jamatkhanas = getJamatKhanaGraph(data);
+  // array with totals and percentage of each jk with europe on top
+  const dataToAdd = processJamatkhanaGraphData(jamatkhanas, EUROPE_CITIES, '');
+
+  // maps through data and populates rows
+  dataToAdd.forEach((jk) => {
+    const jkToAdd = {
+      id: jk.name,
+      percentage: jk.percentage,
+      total: jk.number,
+    };
+    rowsAndColumns.rows.push(jkToAdd);
+  });
+
+  return rowsAndColumns;
+}
+
 // based on type, calls different functions for spreadsheet data
 export default function getSpreadSheetDatafromData(type, data) {
   switch (type) {
@@ -65,8 +97,10 @@ export default function getSpreadSheetDatafromData(type, data) {
       return getAlisonCatalogueCall(data);
     case 'all-learners':
       return processAllLearners(data);
+    case 'all-jks':
+      return processAllJKs(data);
     default:
       console.error('no type');
-      return 'no type provided';
+      return {};
   }
 }

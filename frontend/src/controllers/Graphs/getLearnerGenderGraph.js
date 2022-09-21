@@ -1,19 +1,23 @@
-// import getLearnersGender from '../LearnersStats/getLearnersGender';
+// processes data and calculates total for males and females
+export default function getLearnersGenderData(data) {
+  // return 0 for each if no data
+  if (!data || !data.length) {
+    return {
+      males: 0,
+      females: 0,
+    };
+  }
+  // reduce so maps through array and returns count for number of males
+  const males = data.reduce((male, gender) => {
+    const { Gender } = gender;
+    return male + (Gender === 'Male');
+  }, 0);
 
-// // call for alison catalogue data
-// async function getLearnersGenderDataCall() {
-//   const genders = await getLearnersGender();
-//   console.log(genders);
+  // calculates females by subtracting males from total
+  const females = data.length - males;
 
-//   const males = genders.reduce(function (male, gender) {
-//     const { Gender } = gender;
-//     return male + (Gender === 'Male');
-//   }, 0);
-
-//   const females = genders.length - males;
-//   console.log(females);
-// }
-
-// export default function getLearnersGenderData() {
-//   return getLearnersGenderDataCall();
-// }
+  return {
+    males,
+    females,
+  };
+}

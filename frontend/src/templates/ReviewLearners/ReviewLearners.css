@@ -38,3 +38,15 @@
   height: 5vh;
   font-size: 1.5vh;
 }
+
+.button-nav-sub {
+  background-color: purple;
+  color: white;
+  width: 7vw;
+  height: 5vh;
+  font-size: 1.5vh;
+}
+
+.total-learners {
+  font-size: 4vh;
+}
