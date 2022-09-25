@@ -7,7 +7,9 @@ const { getAllLearnersController } = require('./get-all-learners');
 
 const date = moment().format('DD/MM/YYYY').toString();
 
-const populateAgeTracker = async (learners) => {
+// populates the age tracker with counter for each range
+const populateTrackers = async (learners) => {
+  // initialize age counter
   const ageCounter = {
     Date: date,
     Under18: 0,
@@ -20,16 +22,19 @@ const populateAgeTracker = async (learners) => {
     Above65: 0,
   };
 
+  // initialize to 0 for gender
   const genderCounter = {
     Date: date,
     Male: 0,
     Female: 0,
   };
 
+  // initialize jk counter with just date
   const jkCounter = {
     Date: date,
   };
 
+  // maps through each learner and adds age, jk and gender
   learners.forEach((learner) => {
     if (learner.AgeBand === 'Less than 18') {
       ageCounter.Under18 += 1;
@@ -64,17 +69,20 @@ const populateAgeTracker = async (learners) => {
     }
 
     if (learner.Jamatkhana) {
+      // to lowercase as stored in lowercase in db
       const jk = (learner.Jamatkhana).toLowerCase();
 
+      // creates if does not exist or adds one
       if (jkCounter[jk]) {
         jkCounter[jk] += 1;
       } else {
         jkCounter[jk] = 1;
-      };
+      }
     }
   });
 
   try {
+    // adds to db
     await AgeTracker.bulkCreate([ageCounter]);
     await GenderTracker.bulkCreate([genderCounter]);
     await JamatkhanaTracker.bulkCreate([jkCounter]);
@@ -87,7 +95,7 @@ const populateAgeTracker = async (learners) => {
 const updateLearnerTrackerController = async () => {
   const learners = await getAllLearnersController();
 
-  await populateAgeTracker(learners);
+  await populateTrackers(learners);
 }
 
 module.exports = { updateLearnerTrackerController };

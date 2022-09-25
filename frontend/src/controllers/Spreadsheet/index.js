@@ -91,6 +91,7 @@ function processAllJKs(data) {
   return rowsAndColumns;
 }
 
+// processes age tracker
 function processAgeTracker(data) {
   // contains rows and columns for spreadsheet
   const rowsAndColumns = {
@@ -103,14 +104,18 @@ function processAgeTracker(data) {
     ],
   };
 
+  // most recent one is stored last
   const mostRecentIndex = data.length - 1;
+  // second last is 1 before
   const secondMostRecentIndex = mostRecentIndex - 1;
 
+  // gets data
   const mostRecent = data[mostRecentIndex];
   const secondMostRecent = data[secondMostRecentIndex];
 
   const rowsToAdd = processTrackingChanges(secondMostRecent, mostRecent);
 
+  // copies rows from processing to rows array
   rowsAndColumns.rows = [...rowsToAdd];
 
   return rowsAndColumns;

@@ -32,6 +32,7 @@ const uploadLearnersStatsController = async (learnersStatsUploaded) => {
         'Jamatkhana', 'TotalDuration', 'NumberCourses'],
     })
     .then(async () => {
+      // update tracking changes
       await updateLearnerTrackerController();
       return {
         status: 200,
