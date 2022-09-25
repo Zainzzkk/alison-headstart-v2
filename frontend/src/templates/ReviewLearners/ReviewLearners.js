@@ -8,6 +8,9 @@ import Spreadsheet from '../_macros_/Spreadsheet/Spreadsheet';
 import LearnersGenderGraph from '../_macros_/LearnersGraphs/Gender/LearnersGenderGraph';
 import LearnersAgeRangeGraph from '../_macros_/LearnersGraphs/AgeRange/LearnersAgeRangeGraph';
 import getAllLearners from '../../controllers/LearnersStats/getAllLearners';
+import getAgeTracker from '../../controllers/LearnersStats/getAgeTracker';
+import getGenderTracker from '../../controllers/LearnersStats/getGenderTracker';
+import getJKTracker from '../../controllers/LearnersStats/getJkTracker';
 import JamatkhanaGraph from '../_macros_/LearnersGraphs/Jamatkhana/JamatkhanaGraph';
 import AverageCourseTime from '../_macros_/LearnersStats/AverageCourseTime/AverageCourseTime';
 import TotalLoggedIn from '../_macros_/LearnersStats/TotalLoggedIn/TotalLoggedIn';
@@ -28,6 +31,13 @@ function ReviewLearners() {
   const [getTotalLearners, setTotalLearners] = useState(false);
   const [getTotalLoggedIn, setTotalLoggedIn] = useState(false);
   const [getJamatkhanaSpreadsheet, setJamatkhanaSpreadsheet] = useState(false);
+  const [trackerButtons, setTrackerButtons] = useState(false);
+  const [ageTrackerSheet, setAgeTrackerSheet] = useState(false);
+  const [genderTrackerSheet, setGenderTrackerSheet] = useState(false);
+  const [jkTrackerSheet, setJKTrackerSheet] = useState(false);
+  const [ageTrackerData, setAgeTrackerData] = useState([]);
+  const [genderTrackerData, setGenderTrackerData] = useState([]);
+  const [jkTrackerData, setJKTrackerData] = useState([]);
 
   // useEffect so only called once instead of spamming
   useEffect(() => {
@@ -36,6 +46,24 @@ function ReviewLearners() {
       getAllLearners().then((response) => {
         if (response.length) {
           setLearnersData(response);
+        }
+      });
+
+      getAgeTracker().then((response) => {
+        if (response.length) {
+          setAgeTrackerData(response);
+        }
+      });
+
+      getGenderTracker().then((response) => {
+        if (response.length) {
+          setGenderTrackerData(response);
+        }
+      });
+
+      getJKTracker().then((response) => {
+        if (response.length) {
+          setJKTrackerData(response);
         }
       });
     };
@@ -122,6 +150,7 @@ function ReviewLearners() {
             setTotalLoggedIn(() => false);
             setJamatkhanaSpreadsheet(() => false);
             setAverageCourse(() => false);
+            setTrackerButtons((prevState) => !prevState);
           }}
         >
           Get Tracking Change
@@ -229,6 +258,48 @@ function ReviewLearners() {
           : null
       }
 
+      {
+        trackerButtons
+          ? (
+            <div className="secondary-button-div">
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+                  setAgeTrackerSheet((prevState) => !prevState);
+                  setGenderTrackerSheet(() => false);
+                  setJKTrackerSheet(() => false);
+                }}
+              >
+                Age Tracking Changes
+              </Button>
+
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+                  setGenderTrackerSheet((prevState) => !prevState);
+                  setAgeTrackerSheet(() => false);
+                  setJKTrackerSheet(() => false);
+                }}
+              >
+                Gender Tracking Changes
+              </Button>
+
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+                  setJKTrackerSheet((prevState) => !prevState);
+                  setAgeTrackerSheet(() => false);
+                  setGenderTrackerSheet(() => false);
+                }}
+              >
+                Jamatkhana Tracking Changes
+              </Button>
+            </div>
+
+          )
+          : null
+      }
+
       <div className="spreadsheet-div">
         {getFullLearnerSpreadsheet ? <Spreadsheet whichSheet="all-learners" data={learnersData} /> : null}
       </div>
@@ -264,6 +335,18 @@ function ReviewLearners() {
 
       <div className="spreadsheet-div">
         {getJamatkhanaSpreadsheet ? <Spreadsheet whichSheet="all-jks" data={learnersData} /> : null}
+      </div>
+
+      <div className="spreadsheet-div">
+        {ageTrackerSheet ? <Spreadsheet whichSheet="age-tracker" data={ageTrackerData} /> : null}
+      </div>
+
+      <div className="spreadsheet-div">
+        {genderTrackerSheet ? <Spreadsheet whichSheet="gender-tracker" data={genderTrackerData} /> : null}
+      </div>
+
+      <div className="spreadsheet-div">
+        {jkTrackerSheet ? <Spreadsheet whichSheet="jk-tracker" data={jkTrackerData} /> : null}
       </div>
 
     </div>

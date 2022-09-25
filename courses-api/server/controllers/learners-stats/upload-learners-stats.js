@@ -1,5 +1,6 @@
 const Learners = require('../../models/Learners');
 const convertTotalDurationToEpoch = require('../../helpers/convertTotalDurationToEpoch.helper');
+const { updateLearnerTrackerController } = require('./update-learner-trackers');
 
 const uploadLearnersStatsController = async (learnersStatsUploaded) => {
   const learnerStats = [];
@@ -30,7 +31,9 @@ const uploadLearnersStatsController = async (learnersStatsUploaded) => {
       updateOnDuplicate: ['ID', 'AgeBand', 'Gender',
         'Jamatkhana', 'TotalDuration', 'NumberCourses'],
     })
-    .then(() => {
+    .then(async () => {
+      // update tracking changes
+      await updateLearnerTrackerController();
       return {
         status: 200,
         message: 'Uploaded the the learner stats data successfully',
