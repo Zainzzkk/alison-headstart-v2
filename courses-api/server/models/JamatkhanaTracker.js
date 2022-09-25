@@ -13,7 +13,7 @@ const JamatkhanaTracker = db.define('JamatkhanaTracker', {
   'amsterdam': {
     type: Sequelize.INTEGER,
   },
-  'badsalzuflen': {
+  'bad salzuflen': {
     type: Sequelize.INTEGER,
   },
   'berlin': {
@@ -31,7 +31,7 @@ const JamatkhanaTracker = db.define('JamatkhanaTracker', {
   'bristol': {
     type: Sequelize.INTEGER,
   },
-  'cambridge': {
+  'cambridge gathring space': {
     type: Sequelize.INTEGER,
   },
   'cardiff': {
@@ -52,10 +52,10 @@ const JamatkhanaTracker = db.define('JamatkhanaTracker', {
   'dublin': {
     type: Sequelize.INTEGER,
   },
-  'eastlondon': {
+  'east london': {
     type: Sequelize.INTEGER,
   },
-  'eastbourne/hastings': {
+  'eastbourne / hastings': {
     type: Sequelize.INTEGER,
   },
   'edinburgh': {
@@ -106,7 +106,7 @@ const JamatkhanaTracker = db.define('JamatkhanaTracker', {
   'italy': {
     type: Sequelize.INTEGER,
   },
-  'leeds/bradford': {
+  'leeds / bradford': {
     type: Sequelize.INTEGER,
   },
   'leicester': {
@@ -130,7 +130,7 @@ const JamatkhanaTracker = db.define('JamatkhanaTracker', {
   'mariestad': {
     type: Sequelize.INTEGER,
   },
-  'miltonkeynes': {
+  'milton keynes': {
     type: Sequelize.INTEGER,
   },
   'motala': {
@@ -142,7 +142,7 @@ const JamatkhanaTracker = db.define('JamatkhanaTracker', {
   'newcastle': {
     type: Sequelize.INTEGER,
   },
-  'northlondon': {
+  'north london': {
     type: Sequelize.INTEGER,
   },
   'northampton': {
@@ -184,13 +184,13 @@ const JamatkhanaTracker = db.define('JamatkhanaTracker', {
   'sheffield': {
     type: Sequelize.INTEGER,
   },
-  'southeastlondon': {
+  'south east london': {
     type: Sequelize.INTEGER,
   },
-  'southlondon': {
+  'south london': {
     type: Sequelize.INTEGER,
   },
-  'southwestlondon': {
+  'south west london': {
     type: Sequelize.INTEGER,
   },
   'stockholm': {
@@ -205,7 +205,7 @@ const JamatkhanaTracker = db.define('JamatkhanaTracker', {
   'vienna': {
     type: Sequelize.INTEGER,
   },
-  'westlondon': {
+  'west london': {
     type: Sequelize.INTEGER,
   },
   'wuppertal': {
@@ -214,7 +214,7 @@ const JamatkhanaTracker = db.define('JamatkhanaTracker', {
   'zevenaar': {
     type: Sequelize.INTEGER,
   },
-  'stokeontrent': {
+  'stoke on trent': {
     type: Sequelize.INTEGER,
   },
 });

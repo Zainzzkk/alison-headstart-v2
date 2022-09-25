@@ -1,6 +1,7 @@
 import convertSecondsToTimestamp from '../../helpers/convertSecondsToTimestamp';
 import getJamatKhanaGraph from '../Graphs/getJamatKhanaGraph';
 import processJamatkhanaGraphData from '../../helpers/processJamatkhanaGraphData';
+import processTrackingChanges from '../../helpers/processTrackingChanges';
 
 import { EUROPE_CITIES } from '../../constants';
 
@@ -90,6 +91,79 @@ function processAllJKs(data) {
   return rowsAndColumns;
 }
 
+function processAgeTracker(data) {
+  // contains rows and columns for spreadsheet
+  const rowsAndColumns = {
+    rows: [],
+    columns: [
+      { field: 'id', headerName: 'Age Range', width: 400 },
+      { field: 'lastmonth', headerName: 'Last Month', width: 200 },
+      { field: 'thismonth', headerName: 'This Month', width: 200 },
+      { field: 'change', headerName: 'Change', width: 200 },
+    ],
+  };
+
+  const mostRecentIndex = data.length - 1;
+  const secondMostRecentIndex = mostRecentIndex - 1;
+
+  const mostRecent = data[mostRecentIndex];
+  const secondMostRecent = data[secondMostRecentIndex];
+
+  const rowsToAdd = processTrackingChanges(secondMostRecent, mostRecent);
+
+  rowsAndColumns.rows = [...rowsToAdd];
+
+  return rowsAndColumns;
+}
+
+function processGenderTracker(data) {
+  const rowsAndColumns = {
+    rows: [],
+    columns: [
+      { field: 'id', headerName: 'Gender', width: 400 },
+      { field: 'lastmonth', headerName: 'Last Month', width: 200 },
+      { field: 'thismonth', headerName: 'This Month', width: 200 },
+      { field: 'change', headerName: 'Change', width: 200 },
+    ],
+  };
+
+  const mostRecentIndex = data.length - 1;
+  const secondMostRecentIndex = mostRecentIndex - 1;
+
+  const mostRecent = data[mostRecentIndex];
+  const secondMostRecent = data[secondMostRecentIndex];
+
+  const rowsToAdd = processTrackingChanges(secondMostRecent, mostRecent);
+
+  rowsAndColumns.rows = [...rowsToAdd];
+
+  return rowsAndColumns;
+}
+
+function processJKTracker(data) {
+  const rowsAndColumns = {
+    rows: [],
+    columns: [
+      { field: 'id', headerName: 'Jamatkhana', width: 400 },
+      { field: 'lastmonth', headerName: 'Last Month', width: 200 },
+      { field: 'thismonth', headerName: 'This Month', width: 200 },
+      { field: 'change', headerName: 'Change', width: 200 },
+    ],
+  };
+
+  const mostRecentIndex = data.length - 1;
+  const secondMostRecentIndex = mostRecentIndex - 1;
+
+  const mostRecent = data[mostRecentIndex];
+  const secondMostRecent = data[secondMostRecentIndex];
+
+  const rowsToAdd = processTrackingChanges(secondMostRecent, mostRecent);
+
+  rowsAndColumns.rows = [...rowsToAdd];
+
+  return rowsAndColumns;
+}
+
 // based on type, calls different functions for spreadsheet data
 export default function getSpreadSheetDatafromData(type, data) {
   switch (type) {
@@ -99,6 +173,12 @@ export default function getSpreadSheetDatafromData(type, data) {
       return processAllLearners(data);
     case 'all-jks':
       return processAllJKs(data);
+    case 'age-tracker':
+      return processAgeTracker(data);
+    case 'gender-tracker':
+      return processGenderTracker(data);
+    case 'jk-tracker':
+      return processJKTracker(data);
     default:
       console.error('no type');
       return {};

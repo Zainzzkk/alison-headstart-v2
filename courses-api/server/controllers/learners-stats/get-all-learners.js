@@ -25,4 +25,4 @@ const getAllLearners = async (req, res) => {
 
 };
 
-module.exports = { getAllLearners }
+module.exports = { getAllLearners, getAllLearnersController }
