@@ -302,21 +302,9 @@ function ReviewLearners() {
 
       <div className="spreadsheet-div">
         {getFullLearnerSpreadsheet ? <Spreadsheet whichSheet="all-learners" data={learnersData} /> : null}
-      </div>
-
-      <div>
         {getGenderGraph ? <LearnersGenderGraph data={learnersData} /> : null}
-      </div>
-
-      <div>
         {getAgeGraph ? <LearnersAgeRangeGraph data={learnersData} /> : null}
-      </div>
-
-      <div>
         {getJamatKhanaGraph ? <JamatkhanaGraph data={learnersData} /> : null}
-      </div>
-
-      <div>
         {getAverageCourse ? <AverageCourseTime data={learnersData} /> : null}
       </div>
 
@@ -331,24 +319,11 @@ function ReviewLearners() {
 
       <div>
         {getTotalLoggedIn ? <TotalLoggedIn data={learnersData} /> : null}
-      </div>
-
-      <div className="spreadsheet-div">
         {getJamatkhanaSpreadsheet ? <Spreadsheet whichSheet="all-jks" data={learnersData} /> : null}
-      </div>
-
-      <div className="spreadsheet-div">
         {ageTrackerSheet ? <Spreadsheet whichSheet="age-tracker" data={ageTrackerData} /> : null}
-      </div>
-
-      <div className="spreadsheet-div">
         {genderTrackerSheet ? <Spreadsheet whichSheet="gender-tracker" data={genderTrackerData} /> : null}
-      </div>
-
-      <div className="spreadsheet-div">
         {jkTrackerSheet ? <Spreadsheet whichSheet="jk-tracker" data={jkTrackerData} /> : null}
       </div>
-
     </div>
   );
 }

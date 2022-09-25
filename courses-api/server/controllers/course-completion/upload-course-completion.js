@@ -168,7 +168,6 @@ const uploadCourseCompletionStats = async (req, res) => {
 
 };
 
-
 const uploadCourseCompletionStatsManual = async (req, res) => {
   try {
     const courseCompletionStatsUploaded = req.body;
@@ -183,7 +182,6 @@ const uploadCourseCompletionStatsManual = async (req, res) => {
       error: error.message,
     });
   }
-
 };
 
 

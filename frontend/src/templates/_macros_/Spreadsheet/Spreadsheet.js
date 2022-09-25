@@ -38,11 +38,16 @@ function Spreadsheet(props) {
     getDataFromController();
   }, []);
 
+  // to hide id column only on completion spreadsheets
+  const columnVisibilityModel = {
+    id: false,
+  };
+
   return (
     <div>
       {whichSheet}
       <div style={{ height: '60vh', width: '80vw' }} className="spreadsheet">
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid rows={rows} columns={columns} columnVisibilityModel={whichSheet.includes('completion') ? columnVisibilityModel : {}} />
       </div>
     </div>
   );
