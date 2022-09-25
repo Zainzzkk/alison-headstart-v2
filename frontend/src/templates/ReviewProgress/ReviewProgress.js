@@ -1,20 +1,214 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+
 import AlisonLogo from '../../assets/AlisonLogo.png';
 import HeadstartLogo from '../../assets/HeadstartLogo.png';
+
+import getRawCompletion from '../../controllers/Completion/getRawCompletion';
+import getFilteredCompletion from '../../controllers/Completion/getFilteredCompletion';
+import Spreadsheet from '../_macros_/Spreadsheet/Spreadsheet';
+
+import './ReviewProgress.css';
 
 function ReviewProgress() {
   const navigate = useNavigate();
 
+  const [progressButtons, setProgressButtons] = useState(false);
+  const [completionButtons, setCompletionButtons] = useState(false);
+  const [allocationButtons, setAllocationButtons] = useState(false);
+  const [getRawSpreadsheet, setGetRawSpreadsheet] = useState(false);
+  const [filterCompletionSpreadsheet, setFilteredCompletionSpreadsheet] = useState(false);
+  const [completedSpreadsheet, setCompletedSpreadsheet] = useState(false);
+  const [rawCompletion, setRawCompletion] = useState([]);
+  const [filteredCompletion, setFilteredCompletion] = useState([]);
+
+  // useEffect so only called once instead of spamming
+  useEffect(() => {
+    // gets all completion data and puts it in state
+    const getDataFromApi = () => {
+      getRawCompletion().then((response) => {
+        if (response.length) {
+          setRawCompletion(response);
+        }
+      });
+
+      getFilteredCompletion().then((response) => {
+        if (response.length) {
+          setFilteredCompletion(response);
+        }
+      });
+    };
+
+    getDataFromApi();
+  }, []);
+
   return (
-    <div>
+    <div className="Page">
       <div>
         <header className="image-align">
           <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" onClick={() => navigate('/')} />
           <img src={HeadstartLogo} className="Headstart-logo" alt="Headstart Logo" onClick={() => navigate('/')} />
         </header>
       </div>
+      <div className="header">
+        <h1 className="h1-style">Review Progress</h1>
+        <h2 className="h2-style">Please use this page to review Headstart Alison Learner Course Progress (progress of completion)</h2>
+        <h3 className="h3-style">Press on button to view content (please wait to render). Press button again to hide</h3>
+      </div>
+
+      <div className="button-div">
+        <Button
+          className="button-nav"
+          onClick={() => {
+            setProgressButtons((prevState) => !prevState);
+            setCompletionButtons(() => false);
+            setAllocationButtons(() => false);
+            setGetRawSpreadsheet(() => false);
+            setFilteredCompletionSpreadsheet(() => false);
+            setCompletedSpreadsheet(() => false);
+          }}
+        >
+          Get Progress Data
+        </Button>
+        <Button
+          className="button-nav"
+          onClick={() => {
+            setCompletionButtons((prevState) => !prevState);
+            setProgressButtons(() => false);
+            setAllocationButtons(() => false);
+            setGetRawSpreadsheet(() => false);
+            setFilteredCompletionSpreadsheet(() => false);
+            setCompletedSpreadsheet(() => false);
+          }}
+        >
+          Completion Data
+        </Button>
+
+        <Button
+          className="button-nav"
+          onClick={() => {
+            setAllocationButtons((prevState) => !prevState);
+            setProgressButtons(() => false);
+            setCompletionButtons(() => false);
+            setGetRawSpreadsheet(() => false);
+            setFilteredCompletionSpreadsheet(() => false);
+            setCompletedSpreadsheet(() => false);
+          }}
+        >
+          Certificate Allocation
+        </Button>
+      </div>
+
+      {
+        progressButtons
+          ? (
+            <div className="secondary-button-div">
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+                  setGetRawSpreadsheet((prevState) => !prevState);
+                  setFilteredCompletionSpreadsheet(() => false);
+                  setCompletedSpreadsheet(() => false);
+                }}
+              >
+                Raw Progress Data
+              </Button>
+
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+                  setGetRawSpreadsheet(() => false);
+                  setFilteredCompletionSpreadsheet((prevState) => !prevState);
+                  setCompletedSpreadsheet(() => false);
+                }}
+              >
+                Filtered Data
+              </Button>
+
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+                  setGetRawSpreadsheet(() => false);
+                  setFilteredCompletionSpreadsheet(() => false);
+                  setCompletedSpreadsheet((prevState) => !prevState);
+                }}
+              >
+                Completion Spreadsheet
+              </Button>
+            </div>
+          )
+          : null
+      }
+
+      {
+        completionButtons
+          ? (
+            <div className="secondary-button-div">
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+
+                }}
+              >
+                Insert Certficate Tracker Data
+              </Button>
+
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+
+                }}
+              >
+                Review All Certificate Tracking
+              </Button>
+
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+
+                }}
+              >
+                Progress Stats
+              </Button>
+            </div>
+          )
+          : null
+      }
+
+      {
+        allocationButtons
+          ? (
+            <div className="secondary-button-div">
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+
+                }}
+              >
+                Certificate Allocation
+              </Button>
+
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+
+                }}
+              >
+                Certificate Allocation Spreadsheet
+              </Button>
+            </div>
+          )
+          : null
+      }
+
+      <div className="spreadsheet-div">
+        {getRawSpreadsheet ? <Spreadsheet whichSheet="completion" data={rawCompletion} /> : null}
+        {filterCompletionSpreadsheet ? <Spreadsheet whichSheet="completion" data={filteredCompletion} /> : null}
+        {completedSpreadsheet ? <Spreadsheet whichSheet="completion-completed" data={filteredCompletion} /> : null}
+      </div>
     </div>
+
   );
 }
 

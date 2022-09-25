@@ -169,6 +169,75 @@ function processJKTracker(data) {
   return rowsAndColumns;
 }
 
+// processes completion spreadsheets for raw and filtered data
+function processCompletion(data) {
+  const rowsAndColumns = {
+    rows: [],
+    columns: [
+      { field: 'id' },
+      { field: 'learnerid', headerName: 'Learner ID', width: 200 },
+      { field: 'courseid', headerName: 'Course ID', width: 200 },
+      { field: 'coursename', headerName: 'Course Name', width: 600 },
+      { field: 'completion', headerName: 'Completion', width: 200 },
+      { field: 'time', headerName: 'Time', width: 200 },
+    ],
+  };
+
+  // counter for id
+  let counter = 0;
+
+  data.forEach((completion) => {
+    const completionToAdd = {
+      id: counter,
+      learnerid: completion.LearnerID,
+      courseid: completion.CourseID,
+      coursename: completion.CourseName,
+      completion: completion.Completion,
+      time: convertSecondsToTimestamp(completion.Time),
+    };
+    rowsAndColumns.rows.push(completionToAdd);
+    // add to counter so unique
+    counter += 1;
+  });
+
+  return rowsAndColumns;
+}
+
+// processes fully completed courses
+function processCompleted(data) {
+  const rowsAndColumns = {
+    rows: [],
+    columns: [
+      { field: 'id' },
+      { field: 'learnerid', headerName: 'Learner ID', width: 200 },
+      { field: 'courseid', headerName: 'Course ID', width: 200 },
+      { field: 'coursename', headerName: 'Course Name', width: 600 },
+      { field: 'completion', headerName: 'Completion', width: 200 },
+      { field: 'time', headerName: 'Time', width: 200 },
+    ],
+  };
+
+  let counter = 0;
+
+  data.forEach((completion) => {
+    // if fully completed
+    if (completion.Completion === 100) {
+      const completionToAdd = {
+        id: counter,
+        learnerid: completion.LearnerID,
+        courseid: completion.CourseID,
+        coursename: completion.CourseName,
+        completion: completion.Completion,
+        time: convertSecondsToTimestamp(completion.Time),
+      };
+      rowsAndColumns.rows.push(completionToAdd);
+      counter += 1;
+    }
+  });
+
+  return rowsAndColumns;
+}
+
 // based on type, calls different functions for spreadsheet data
 export default function getSpreadSheetDatafromData(type, data) {
   switch (type) {
@@ -184,6 +253,10 @@ export default function getSpreadSheetDatafromData(type, data) {
       return processGenderTracker(data);
     case 'jk-tracker':
       return processJKTracker(data);
+    case 'completion':
+      return processCompletion(data);
+    case 'completion-completed':
+      return processCompleted(data);
     default:
       console.error('no type');
       return {};
