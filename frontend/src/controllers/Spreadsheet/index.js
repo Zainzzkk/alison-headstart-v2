@@ -238,6 +238,93 @@ function processCompleted(data) {
   return rowsAndColumns;
 }
 
+function processCompletionCertificateTracker(data) {
+  const rowsAndColumns = {
+    rows: [],
+    columns: [
+      { field: 'id' },
+      { field: 'learnerid', headerName: 'Learner ID', width: 200 },
+      { field: 'courseid', headerName: 'Course ID', width: 200 },
+      { field: 'coursename', headerName: 'Course Name', width: 600 },
+      { field: 'type', headerName: 'Type', width: 200 },
+      { field: 'completion', headerName: 'Completion', width: 200 },
+      { field: 'time', headerName: 'Time', width: 200 },
+      { field: 'code', headerName: 'Code', width: 300 },
+      { field: 'status', headerName: 'Status', width: 200 },
+    ],
+  };
+
+  let counter = 0;
+
+  data.forEach((completion) => {
+    const completionToAdd = {
+      id: counter,
+      learnerid: completion.LearnerID,
+      courseid: completion.CourseID,
+      coursename: completion.CourseName,
+      type: completion.Type,
+      completion: completion.Completion,
+      time: convertSecondsToTimestamp(completion.Time),
+      code: completion.Code,
+      status: completion.Status,
+    };
+    rowsAndColumns.rows.push(completionToAdd);
+    counter += 1;
+  });
+
+  return rowsAndColumns;
+}
+
+// processes certificate allocation spreadsheet
+function processCodeTracker(data) {
+  const rowsAndColumns = {
+    rows: [],
+    columns: [
+      { field: 'id' },
+      { field: 'code', headerName: 'Code', width: 300 },
+      { field: 'type', headerName: 'Type', width: 200 },
+      { field: 'status', headerName: 'Status', width: 200 },
+      { field: 'expiry', headerName: 'Expiry', width: 200 },
+      { field: 'learnerid', headerName: 'Learner ID', width: 200 },
+      { field: 'learnername', headerName: 'Learner Name', width: 300 },
+      { field: 'courseid', headerName: 'Course ID', width: 200 },
+      { field: 'coursename', headerName: 'Course Name', width: 600 },
+      { field: 'date', headerName: 'Date', width: 200 },
+    ],
+  };
+
+  // combines diploma and certificate codes
+  const codes = [...data.certificates, ...data.diplomas];
+  // counter for id
+  let counter = 0;
+
+  // maps through codes
+  codes.forEach((code) => {
+    // finds and returns course details if codes match
+    const completed = data.completionTracker.find((completion) => completion.Code === code.Code);
+
+    // combines 2 arrays together for rows
+    const trackerToAdd = {
+      id: counter,
+      code: code.Code,
+      type: code.Type,
+      status: code.Used,
+      expiry: code.Expiry,
+      // if exists or empty string
+      learnerid: completed?.LearnerID ?? '',
+      learnername: '',
+      courseid: completed?.CourseID ?? '',
+      coursename: completed?.CourseName ?? '',
+      date: code.Date,
+    };
+
+    rowsAndColumns.rows.push(trackerToAdd);
+    counter += 1;
+  });
+
+  return rowsAndColumns;
+}
+
 // based on type, calls different functions for spreadsheet data
 export default function getSpreadSheetDatafromData(type, data) {
   switch (type) {
@@ -257,6 +344,10 @@ export default function getSpreadSheetDatafromData(type, data) {
       return processCompletion(data);
     case 'completion-completed':
       return processCompleted(data);
+    case 'completion-certificate-tracker':
+      return processCompletionCertificateTracker(data);
+    case 'completion-code-tracker':
+      return processCodeTracker(data);
     default:
       console.error('no type');
       return {};
