@@ -25,5 +25,6 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'no-console': 0,
     'no-mixed-operators': 0,
+    'max-len': ["error", 200],
   },
 };

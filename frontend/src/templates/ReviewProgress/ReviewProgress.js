@@ -7,6 +7,14 @@ import HeadstartLogo from '../../assets/HeadstartLogo.png';
 
 import getRawCompletion from '../../controllers/Completion/getRawCompletion';
 import getFilteredCompletion from '../../controllers/Completion/getFilteredCompletion';
+import getCourseCertificateTracker from '../../controllers/Completion/getCourseCertificateTracker';
+import getCertificateCodes from '../../controllers/CourseCodes/getCertificateCodes';
+import getDiplomaCodes from '../../controllers/DiplomaCodes/getDiplomaCodes';
+import combineCodeData from '../../helpers/combineCodeData';
+import getTotalCompletedCourses from '../../helpers/getTotalCompletedCourses';
+import getTotalCodesUsed from '../../helpers/getTotalCodesUsed';
+import calculateAverageTime from '../../helpers/calculateAverageTime';
+
 import Spreadsheet from '../_macros_/Spreadsheet/Spreadsheet';
 
 import './ReviewProgress.css';
@@ -19,9 +27,15 @@ function ReviewProgress() {
   const [allocationButtons, setAllocationButtons] = useState(false);
   const [getRawSpreadsheet, setGetRawSpreadsheet] = useState(false);
   const [filterCompletionSpreadsheet, setFilteredCompletionSpreadsheet] = useState(false);
+  const [courseCertificateSpreadsheet, setCourseCertificateSpreadsheet] = useState(false);
   const [completedSpreadsheet, setCompletedSpreadsheet] = useState(false);
+  const [codeTrackingSpreadsheet, setCodeTrackingSpreadsheet] = useState(false);
+  const [progressStats, setProgressStats] = useState(false);
   const [rawCompletion, setRawCompletion] = useState([]);
   const [filteredCompletion, setFilteredCompletion] = useState([]);
+  const [courseCertificateTracker, setCourseCertificateTracker] = useState([]);
+  const [certificateCodes, setCertificateCodes] = useState([]);
+  const [diplomaCodes, setDiplomaCodes] = useState([]);
 
   // useEffect so only called once instead of spamming
   useEffect(() => {
@@ -36,6 +50,24 @@ function ReviewProgress() {
       getFilteredCompletion().then((response) => {
         if (response.length) {
           setFilteredCompletion(response);
+        }
+      });
+
+      getCourseCertificateTracker().then((response) => {
+        if (response.length) {
+          setCourseCertificateTracker(response);
+        }
+      });
+
+      getCertificateCodes().then((response) => {
+        if (response.length) {
+          setCertificateCodes(response);
+        }
+      });
+
+      getDiplomaCodes().then((response) => {
+        if (response.length) {
+          setDiplomaCodes(response);
         }
       });
     };
@@ -67,6 +99,9 @@ function ReviewProgress() {
             setGetRawSpreadsheet(() => false);
             setFilteredCompletionSpreadsheet(() => false);
             setCompletedSpreadsheet(() => false);
+            setCourseCertificateSpreadsheet(() => false);
+            setCodeTrackingSpreadsheet(() => false);
+            setProgressStats(() => false);
           }}
         >
           Get Progress Data
@@ -80,6 +115,9 @@ function ReviewProgress() {
             setGetRawSpreadsheet(() => false);
             setFilteredCompletionSpreadsheet(() => false);
             setCompletedSpreadsheet(() => false);
+            setCourseCertificateSpreadsheet(() => false);
+            setCodeTrackingSpreadsheet(() => false);
+            setProgressStats(() => false);
           }}
         >
           Completion Data
@@ -94,6 +132,9 @@ function ReviewProgress() {
             setGetRawSpreadsheet(() => false);
             setFilteredCompletionSpreadsheet(() => false);
             setCompletedSpreadsheet(() => false);
+            setCourseCertificateSpreadsheet(() => false);
+            setCodeTrackingSpreadsheet(() => false);
+            setProgressStats(() => false);
           }}
         >
           Certificate Allocation
@@ -148,7 +189,8 @@ function ReviewProgress() {
               <Button
                 className="button-nav-sub"
                 onClick={() => {
-
+                  setCourseCertificateSpreadsheet(() => false);
+                  setProgressStats(() => false);
                 }}
               >
                 Insert Certficate Tracker Data
@@ -157,7 +199,8 @@ function ReviewProgress() {
               <Button
                 className="button-nav-sub"
                 onClick={() => {
-
+                  setCourseCertificateSpreadsheet((prevState) => !prevState);
+                  setProgressStats(() => false);
                 }}
               >
                 Review All Certificate Tracking
@@ -166,7 +209,8 @@ function ReviewProgress() {
               <Button
                 className="button-nav-sub"
                 onClick={() => {
-
+                  setCourseCertificateSpreadsheet(() => false);
+                  setProgressStats((prevState) => !prevState);
                 }}
               >
                 Progress Stats
@@ -183,7 +227,7 @@ function ReviewProgress() {
               <Button
                 className="button-nav-sub"
                 onClick={() => {
-
+                  setCodeTrackingSpreadsheet(() => false);
                 }}
               >
                 Certificate Allocation
@@ -192,7 +236,7 @@ function ReviewProgress() {
               <Button
                 className="button-nav-sub"
                 onClick={() => {
-
+                  setCodeTrackingSpreadsheet((prevState) => !prevState);
                 }}
               >
                 Certificate Allocation Spreadsheet
@@ -206,9 +250,35 @@ function ReviewProgress() {
         {getRawSpreadsheet ? <Spreadsheet whichSheet="completion" data={rawCompletion} /> : null}
         {filterCompletionSpreadsheet ? <Spreadsheet whichSheet="completion" data={filteredCompletion} /> : null}
         {completedSpreadsheet ? <Spreadsheet whichSheet="completion-completed" data={filteredCompletion} /> : null}
+        {courseCertificateSpreadsheet ? <Spreadsheet whichSheet="completion-certificate-tracker" data={courseCertificateTracker} /> : null}
+        {codeTrackingSpreadsheet ? <Spreadsheet whichSheet="completion-code-tracker" data={combineCodeData(certificateCodes, diplomaCodes, courseCertificateTracker)} /> : null}
       </div>
-    </div>
 
+      {
+        progressStats
+          ? (
+            <div>
+              <div>
+                Total Certificates:
+                {' '}
+                {getTotalCodesUsed(courseCertificateTracker)}
+              </div>
+              <div>
+                Total Completed:
+                {' '}
+                {getTotalCompletedCourses(filteredCompletion)}
+              </div>
+
+              <div>
+                Average Completion:
+                {' '}
+                {`${calculateAverageTime(filteredCompletion)}%`}
+              </div>
+            </div>
+          )
+          : null
+      }
+    </div>
   );
 }
 

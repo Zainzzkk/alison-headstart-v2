@@ -62,7 +62,6 @@ const uploadCourseCodes = async (req, res) => {
       message: `Try-catch - uploadCourseCodes - Error uploading certificate codes ${{ err }}`,
     });
   }
-
 };
 
 module.exports = { uploadCourseCodes, uploadCourseCodesController }
