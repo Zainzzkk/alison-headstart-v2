@@ -38,3 +38,7 @@ input {
   background-color: red;
   color: black;
 }
+
+.second-row {
+  margin-top: 2vh;
+}

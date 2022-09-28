@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import AlisonLogo from '../../assets/AlisonLogo.png';
 import HeadstartLogo from '../../assets/HeadstartLogo.png';
 
+import UploadFile from '../_macros_/UploadFile/UploadFile';
+
 import getRawCompletion from '../../controllers/Completion/getRawCompletion';
 import getFilteredCompletion from '../../controllers/Completion/getFilteredCompletion';
 import getCourseCertificateTracker from '../../controllers/Completion/getCourseCertificateTracker';
@@ -31,6 +33,7 @@ function ReviewProgress() {
   const [completedSpreadsheet, setCompletedSpreadsheet] = useState(false);
   const [codeTrackingSpreadsheet, setCodeTrackingSpreadsheet] = useState(false);
   const [progressStats, setProgressStats] = useState(false);
+  const [insertTrackerData, setTrackerData] = useState(false);
   const [rawCompletion, setRawCompletion] = useState([]);
   const [filteredCompletion, setFilteredCompletion] = useState([]);
   const [courseCertificateTracker, setCourseCertificateTracker] = useState([]);
@@ -102,6 +105,7 @@ function ReviewProgress() {
             setCourseCertificateSpreadsheet(() => false);
             setCodeTrackingSpreadsheet(() => false);
             setProgressStats(() => false);
+            setTrackerData(() => false);
           }}
         >
           Get Progress Data
@@ -118,6 +122,7 @@ function ReviewProgress() {
             setCourseCertificateSpreadsheet(() => false);
             setCodeTrackingSpreadsheet(() => false);
             setProgressStats(() => false);
+            setTrackerData(() => false);
           }}
         >
           Completion Data
@@ -135,6 +140,7 @@ function ReviewProgress() {
             setCourseCertificateSpreadsheet(() => false);
             setCodeTrackingSpreadsheet(() => false);
             setProgressStats(() => false);
+            setTrackerData(() => false);
           }}
         >
           Certificate Allocation
@@ -191,6 +197,7 @@ function ReviewProgress() {
                 onClick={() => {
                   setCourseCertificateSpreadsheet(() => false);
                   setProgressStats(() => false);
+                  setTrackerData((prevState) => !prevState);
                 }}
               >
                 Insert Certficate Tracker Data
@@ -201,6 +208,7 @@ function ReviewProgress() {
                 onClick={() => {
                   setCourseCertificateSpreadsheet((prevState) => !prevState);
                   setProgressStats(() => false);
+                  setTrackerData(() => false);
                 }}
               >
                 Review All Certificate Tracking
@@ -211,6 +219,7 @@ function ReviewProgress() {
                 onClick={() => {
                   setCourseCertificateSpreadsheet(() => false);
                   setProgressStats((prevState) => !prevState);
+                  setTrackerData(() => false);
                 }}
               >
                 Progress Stats
@@ -252,6 +261,7 @@ function ReviewProgress() {
         {completedSpreadsheet ? <Spreadsheet whichSheet="completion-completed" data={filteredCompletion} /> : null}
         {courseCertificateSpreadsheet ? <Spreadsheet whichSheet="completion-certificate-tracker" data={courseCertificateTracker} /> : null}
         {codeTrackingSpreadsheet ? <Spreadsheet whichSheet="completion-code-tracker" data={combineCodeData(certificateCodes, diplomaCodes, courseCertificateTracker)} /> : null}
+        {insertTrackerData ? <UploadFile uploadType="insert-certificate-tracker" /> : null}
       </div>
 
       {

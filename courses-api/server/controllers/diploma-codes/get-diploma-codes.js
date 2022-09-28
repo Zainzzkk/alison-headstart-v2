@@ -10,7 +10,7 @@ const getDiplomaCodesController = async () => {
     });
 }
 
-// function to upload course codes from uploaded array to database
+// function to get diploma codes from uploaded array to database
 const getDiplomaCodes = async (req, res) => {
   try {
     const diplomaCodes = await getDiplomaCodesController();

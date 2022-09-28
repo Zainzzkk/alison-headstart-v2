@@ -4,6 +4,7 @@ import { uploadDiplomaCodes } from '../DiplomaCodes/uploadDiplomaCodes';
 import { uploadAlisonCatalogue } from '../AlisonCatalogue/upload-alison-catalogue';
 import { uploadLearnersStats } from '../LearnersStats/uploadLearnersStats';
 import { uploadCourseCompletion, uploadCourseCompletionManual } from '../Completion/uploadCompletion';
+import { uploadCertificateTracker, uploadCertificateManualTracker } from '../Completion/uploadCertificateTracker';
 
 export function open(uri) {
   try {
@@ -48,6 +49,16 @@ async function uploadCourseCompletionManualCall(fileContents) {
   return response;
 }
 
+async function uploadCertificateTrackerCall(fileContents) {
+  const response = await uploadCertificateTracker(fileContents);
+  return response;
+}
+
+async function uploadCertificateTrackerManualCall(fileContents) {
+  const response = await uploadCertificateManualTracker(fileContents);
+  return response;
+}
+
 // checks what type of upload is required and calls relevant function
 export function uploadFileToApi(fileContents, type) {
   switch (type) {
@@ -68,6 +79,12 @@ export function uploadFileToApi(fileContents, type) {
 
     case 'course-completion-manual':
       return uploadCourseCompletionManualCall([fileContents]);
+
+    case 'insert-certificate-tracker':
+      return uploadCertificateTrackerCall(fileContents);
+
+    case 'insert-certificate-tracker-manual':
+      return uploadCertificateTrackerManualCall(fileContents);
 
     default:
       console.error('no data or type provided');
