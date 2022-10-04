@@ -26,5 +26,6 @@ module.exports = {
     'no-console': 0,
     'no-mixed-operators': 0,
     'max-len': ["error", 200],
+    'quotes': 0,
   },
 };

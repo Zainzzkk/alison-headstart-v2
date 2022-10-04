@@ -1,0 +1,10 @@
+.spreadsheet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.email-text {
+  text-align: left;
+}
