@@ -7,4 +7,9 @@ const EUROPE_CITIES = ['AMSTERDAM', 'BAD SALZUFLEN', 'BERLIN', 'COPENHAGEN', 'DR
   'OLDENBURG', 'OSLO', 'POLAND', 'ROTTERDAM', 'STOCKHOLM', 'VIENNA', 'Wuppertal', 'ZEVENAAR',
 ];
 
-module.exports = { COURSESAPIURL, EUROPE_CITIES };
+const COURSE_TYPE = {
+  DIPLOMA: 'Diploma',
+  CERTIFICATE: 'Certificate',
+};
+
+module.exports = { COURSESAPIURL, EUROPE_CITIES, COURSE_TYPE };

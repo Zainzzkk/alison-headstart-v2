@@ -24,4 +24,4 @@ const getCompletionCertificateTracker = async (req, res) => {
   }
 }
 
-module.exports = { getCompletionCertificateTracker };
+module.exports = { getCompletionCertificateTracker, CompletionCertificateController };
