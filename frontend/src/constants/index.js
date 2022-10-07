@@ -2,6 +2,10 @@ const COURSESAPIURL = {
   ADDRESS: 'http://localhost:3001',
 };
 
+const LEARNERSAPIURL = {
+  ADDRESS: 'http://localhost:3002',
+};
+
 const EUROPE_CITIES = ['AMSTERDAM', 'BAD SALZUFLEN', 'BERLIN', 'COPENHAGEN', 'DRESDEN', 'DUBLIN',
   'Erfurt', 'ESSEN', 'FRANKFURT', 'FREIBURG', 'GOTHENBURG', 'HAMBURG', 'ITALY', 'LEIPZIG', 'LJUNGBY', 'MUNICH',
   'OLDENBURG', 'OSLO', 'POLAND', 'ROTTERDAM', 'STOCKHOLM', 'VIENNA', 'Wuppertal', 'ZEVENAAR',
@@ -12,4 +16,9 @@ const COURSE_TYPE = {
   CERTIFICATE: 'Certificate',
 };
 
-module.exports = { COURSESAPIURL, EUROPE_CITIES, COURSE_TYPE };
+module.exports = {
+  COURSESAPIURL,
+  LEARNERSAPIURL,
+  EUROPE_CITIES,
+  COURSE_TYPE,
+};

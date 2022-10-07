@@ -25,6 +25,11 @@ function UploadFile(props) {
   const [fileContents, setFileContents] = useState(null);
   const [hasUploaded, setHasUploaded] = useState(null);
   const [inputLearnerID, setInputLearnerID] = useState('');
+  const [inputLearnerName, setInputLearnerName] = useState('');
+  const [inputAge, setInputAge] = useState('');
+  const [inputGender, setInputGender] = useState('');
+  const [inputJK, setInputJK] = useState('');
+  const [inputEmail, setInputEmail] = useState('');
   const [inputCourseID, setInputCourseID] = useState('');
   const [inputCourseName, setInputCourseName] = useState('');
   const [inputCompletion, setInputCompletion] = useState('');
@@ -34,6 +39,7 @@ function UploadFile(props) {
   const [inputCode, setInputCode] = useState('');
   const [modalShow, setModalShow] = useState(false);
   const [trackerModalShow, setTrackerModalShow] = useState(false);
+  const [learnerModalShow, setLearnerModalShow] = useState(false);
 
   const { uploadType } = props;
 
@@ -121,6 +127,37 @@ function UploadFile(props) {
     });
     // hides once has response back
     setTrackerModalShow(false);
+    // shows upload status
+    if (hasUploaded) {
+      uploadStatus = (
+        <div className="upload-status">
+          Upload status:
+          {' '}
+          {hasUploaded}
+          !
+        </div>
+      );
+    }
+  };
+
+  // manual upload of certificate tracker info
+  const onManualInputLearnerSubmit = async () => {
+    const learnerPrivate = {
+      ID: inputLearnerID,
+      Name: inputLearnerName,
+      AgeBand: inputAge,
+      Gender: inputGender,
+      Jamatkhana: inputJK,
+      Email: inputEmail,
+    };
+
+    uploadFileToApi(learnerPrivate, 'learners-private-manual').then((response) => {
+      console.log(response);
+      // sets response status message
+      setHasUploaded(response.message);
+    });
+    // hides once has response back
+    setLearnerModalShow(false);
     // shows upload status
     if (hasUploaded) {
       uploadStatus = (
@@ -411,6 +448,99 @@ function UploadFile(props) {
                 <Modal.Footer>
                   <Button className="confirm-button" onClick={() => onManualInputTrackerSubmit()}>Confirm</Button>
                   <Button onClick={() => setModalShow(false)}>Cancel</Button>
+                </Modal.Footer>
+              </Modal>
+            </form>
+          </div>
+        ) : null}
+
+      {uploadType === 'learners-private'
+        ? (
+          <div className="course-input-div">
+            <form>
+              <label htmlFor="learner-id">
+                IIUK ID:
+                <input type="text" id="learner-id" value={inputLearnerID} onChange={(event) => setInputLearnerID(event.target.value)} />
+              </label>
+
+              <label htmlFor="name">
+                Name:
+                <input type="text" id="course-id" value={inputLearnerName} onChange={(event) => setInputLearnerName(event.target.value)} />
+              </label>
+
+              <label htmlFor="age-band">
+                Age Band:
+                <input type="text" id="age-band" value={inputAge} onChange={(event) => setInputAge(event.target.value)} />
+              </label>
+
+              <label htmlFor="gender">
+                Gender:
+                <input type="text" id="gender" value={inputGender} onChange={(event) => setInputGender(event.target.value)} />
+              </label>
+
+              <label htmlFor="jk">
+                Jamatkhana:
+                <input type="text" id="jk" value={inputJK} onChange={(event) => setInputJK(event.target.value)} />
+              </label>
+
+              <label htmlFor="email">
+                Email:
+                <input type="text" id="email" value={inputEmail} onChange={(event) => setInputEmail(event.target.value)} />
+              </label>
+
+              <IconButton onClick={() => setLearnerModalShow(true)}>
+                <FcUpload />
+              </IconButton>
+
+              <Modal
+                show={learnerModalShow}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                onHide={() => setLearnerModalShow(false)}
+              >
+                <Modal.Header closeButton onClick={() => setLearnerModalShow(false)}>
+                  <Modal.Title id="contained-modal-title-vcenter">
+                    Confirm private learner info
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="modal-body">
+                  <h4>Please review and click confirm to send to db</h4>
+                  <p className="firstModalItem">
+                    IIUK ID:
+                    {' '}
+                    {inputLearnerID}
+                  </p>
+                  <p>
+                    Learner Name:
+                    {' '}
+                    {inputLearnerName}
+                  </p>
+                  <p>
+                    Age Band:
+                    {' '}
+                    {inputAge}
+                  </p>
+                  <p>
+                    Gender:
+                    {' '}
+                    {inputGender}
+                  </p>
+                  <p>
+                    JK:
+                    {' '}
+                    {inputJK}
+                  </p>
+                  <p>
+                    Email:
+                    {' '}
+                    {inputEmail}
+                  </p>
+
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button className="confirm-button" onClick={() => onManualInputLearnerSubmit()}>Confirm</Button>
+                  <Button onClick={() => setLearnerModalShow(false)}>Cancel</Button>
                 </Modal.Footer>
               </Modal>
             </form>

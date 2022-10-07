@@ -14,7 +14,6 @@ const getDiplomaCodesController = async () => {
 const getUnusedDiplomaCodesController = async () => {
   return DiplomaCertificates.findAll({
     raw: true,
-    raw: true,
     where: {
       Used: 'NO',
     },
