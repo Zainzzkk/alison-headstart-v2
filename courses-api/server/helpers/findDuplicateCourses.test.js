@@ -277,7 +277,6 @@ describe('findDuplicateCourses', () => {
     };
 
     const result = findDuplicateCourses(courses[0], courses);
-    console.log(result)
 
     expect(result).toEqual(expected);
   });
@@ -300,7 +299,6 @@ describe('findDuplicateCourses', () => {
     };
 
     const result = findDuplicateCourses(courses[0], courses);
-    console.log(result)
 
     expect(result).toEqual(expected);
   });

@@ -28,7 +28,7 @@ function AverageCourseTime(props) {
       setAverageTime(averageTimeCalculated);
     }
   });
-  console.log('AAAAAA');
+
   return (
     <div className="average-time">
       Average course time:
