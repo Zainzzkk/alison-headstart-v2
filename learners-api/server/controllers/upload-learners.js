@@ -69,7 +69,7 @@ const uploadLearners = async (req, res) => {
     const learners = req.body;
 
     const { status, message } = await uploadLearnersController(learners);
-    console.log(status, message);
+
     res.status(status).send({ message });
 
   } catch (error) {
@@ -85,7 +85,7 @@ const uploadLearnersManual = async (req, res) => {
     const learners = req.body;
 
     const { status, message } = await uploadLearnersManualController(learners);
-    console.log(status, message);
+
     res.status(status).send({ message });
 
   } catch (error) {

@@ -69,7 +69,6 @@ async function allocateTracker(toAllocate, codeToUse) {
 
 // function to allocate code and update tracker and code dbs
 export default async function allocateCodeController(toAllocate) {
-  console.log(toAllocate);
   const codes = await getUnusedCode(toAllocate.coursename);
   const codeToUse = sortCodes(codes)[0];
 
