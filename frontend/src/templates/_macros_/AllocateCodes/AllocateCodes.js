@@ -10,6 +10,7 @@ import convertSecondsToTimestamp from '../../../helpers/convertSecondsToTimestam
 import getTotalCertificatesUser from '../../../helpers/getTotalCertificatesUser';
 import allocateCodeController from '../../../controllers/Completion/allocateCode';
 import unallocate from '../../../controllers/Completion/unallocate';
+import getLearner from '../../../controllers/LearnersData/getLearner';
 import determineCourseType from '../../../helpers/getCourseType';
 
 import './AllocateCodes.css';
@@ -28,11 +29,19 @@ function AllocateCodes(props) {
   const [rows, setRows] = useState([]);
   const [emailShow, setEmailShow] = useState(false);
   const [emailData, setEmailData] = useState({});
+  const [learner, setLearner] = useState({});
 
   // controller for email button
   const makeEmail = (rowToAllocate) => {
     const { row: rowToChange } = rowToAllocate;
 
+    if (rowToChange.code && rowToChange.code !== 'error') {
+      // gets learner if not blank
+      getLearner(rowToChange.learnerid).then((learnerResponse) => {
+        // adds to state
+        setLearner(learnerResponse);
+      });
+    }
     return (
       // if code exists for allocation (if not blank or error)
       rowToChange.code !== '' && rowToChange.code !== 'error'
@@ -220,11 +229,16 @@ function AllocateCodes(props) {
             <div className="email-text">
               <br />
               Email Address:
+              {' '}
+              {learner.Email}
               <br />
               Subject: Alison course completion
               <br />
               <br />
-              Dear ,
+              Dear
+              {' '}
+              {learner.Name}
+              ,
               <br />
               <br />
               On behalf of AKEB Headstart we would like to offer our mubaraki&apos;s in your successful completion of the following course:
