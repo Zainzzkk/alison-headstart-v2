@@ -20,7 +20,7 @@ function UpdateCompletion() {
         <h1 className="h1-style">Update Completion</h1>
         <h2 className="h2-style">Please use this page to update individual course completion</h2>
         <h3 className="h3-style">Download Alison courses csv file</h3>
-        <h3 className="h3-style">Open in notepad and save as and select ANSII</h3>
+        <h3 className="h3-style">Open in notepad and save as and select ANSII or subline text and save as .txt in UTF-8</h3>
         <h3 className="h3-style">
           Open excel -
           {'>'}
@@ -36,6 +36,7 @@ function UpdateCompletion() {
           {' '}
           save
         </h3>
+        <h3 className="h3-style">Or data, get data (power query) and then from text</h3>
         <h3 className="h3-style">Upload converted file</h3>
         <h3 className="h3-style">Click upload button</h3>
         <h3 className="h3-style">Review if any errors</h3>

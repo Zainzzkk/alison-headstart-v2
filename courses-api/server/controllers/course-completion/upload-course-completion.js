@@ -19,8 +19,6 @@ const uploadCourseStatusRaws = async (courseCompletionsUploaded) => {
     courseCompletion.push(courseToAdd);
   });
 
-  console.log(courseCompletion)
-
   // removes triplicates/quadruplicates with same id and course name
   const filterRaw = courseCompletion.filter((value, index, self) =>
     index === self.findIndex((t) => (
