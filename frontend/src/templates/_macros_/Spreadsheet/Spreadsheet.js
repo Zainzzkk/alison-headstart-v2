@@ -47,7 +47,15 @@ function Spreadsheet(props) {
     <div>
       {whichSheet}
       <div style={{ height: '60vh', width: '80vw' }} className="spreadsheet">
-        <DataGrid rows={rows} columns={columns} columnVisibilityModel={whichSheet.includes('completion') ? columnVisibilityModel : {}} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          columnVisibilityModel={
+            (
+              whichSheet.includes('completion') || whichSheet === 'seventy' || whichSheet === 'ninety'
+            ) ? columnVisibilityModel : {}
+          }
+        />
       </div>
     </div>
   );

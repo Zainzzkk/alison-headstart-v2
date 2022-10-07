@@ -2,6 +2,7 @@ import convertSecondsToTimestamp from '../../helpers/convertSecondsToTimestamp';
 import getJamatKhanaGraph from '../Graphs/getJamatKhanaGraph';
 import processJamatkhanaGraphData from '../../helpers/processJamatkhanaGraphData';
 import processTrackingChanges from '../../helpers/processTrackingChanges';
+import findAbovePercentage from '../../helpers/findAbovePercentage';
 
 import { EUROPE_CITIES } from '../../constants';
 
@@ -325,6 +326,41 @@ function processCodeTracker(data) {
   return rowsAndColumns;
 }
 
+// finds courses over percentage (number and adds rows and columns)
+function processNumberCompleted(data, number) {
+  const rowsAndColumns = {
+    rows: [],
+    columns: [
+      { field: 'id' },
+      { field: 'learnerid', headerName: 'Learner ID', width: 200 },
+      { field: 'courseid', headerName: 'Course ID', width: 200 },
+      { field: 'coursename', headerName: 'Course Name', width: 600 },
+      { field: 'completion', headerName: 'Completion', width: 200 },
+      { field: 'time', headerName: 'Time', width: 200 },
+    ],
+  };
+
+  // returns array of courses above certain number
+  const abovePercentage = findAbovePercentage(data, number);
+  // counter for id column (hidden)
+  let counter = 0;
+
+  abovePercentage.forEach((completion) => {
+    const completionToAdd = {
+      id: counter,
+      learnerid: completion.LearnerID,
+      courseid: completion.CourseID,
+      coursename: completion.CourseName,
+      completion: completion.Completion,
+      time: convertSecondsToTimestamp(completion.Time),
+    };
+    rowsAndColumns.rows.push(completionToAdd);
+    counter += 1;
+  });
+
+  return rowsAndColumns;
+}
+
 // based on type, calls different functions for spreadsheet data
 export default function getSpreadSheetDatafromData(type, data) {
   switch (type) {
@@ -348,6 +384,10 @@ export default function getSpreadSheetDatafromData(type, data) {
       return processCompletionCertificateTracker(data);
     case 'completion-code-tracker':
       return processCodeTracker(data);
+    case 'seventy':
+      return processNumberCompleted(data, 70);
+    case 'ninety':
+      return processNumberCompleted(data, 90);
     default:
       console.error('no type');
       return {};
