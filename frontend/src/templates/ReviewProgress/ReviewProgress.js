@@ -17,6 +17,7 @@ import combineCodeData from '../../helpers/combineCodeData';
 import getTotalCompletedCourses from '../../helpers/getTotalCompletedCourses';
 import getTotalCodesUsed from '../../helpers/getTotalCodesUsed';
 import calculateAverageTime from '../../helpers/calculateAverageTime';
+import calculateAbovePercentage from '../../helpers/calculateAbovePercentage';
 
 import Spreadsheet from '../_macros_/Spreadsheet/Spreadsheet';
 import AllocateCodes from '../_macros_/AllocateCodes/AllocateCodes';
@@ -35,6 +36,8 @@ function ReviewProgress() {
   const [completedSpreadsheet, setCompletedSpreadsheet] = useState(false);
   const [codeTrackingSpreadsheet, setCodeTrackingSpreadsheet] = useState(false);
   const [progressStats, setProgressStats] = useState(false);
+  const [seventyCompletion, setSeventyCompletion] = useState(false);
+  const [ninetyCompletion, setNinetyCompletion] = useState(false);
   const [insertTrackerData, setTrackerData] = useState(false);
   const [allocateCodes, setAllocateCodes] = useState(false);
   const [rawCompletion, setRawCompletion] = useState([]);
@@ -116,6 +119,8 @@ function ReviewProgress() {
             setProgressStats(() => false);
             setTrackerData(() => false);
             setAllocateCodes(() => false);
+            setNinetyCompletion(() => false);
+            setSeventyCompletion(() => false);
           }}
         >
           Get Progress Data
@@ -134,6 +139,8 @@ function ReviewProgress() {
             setProgressStats(() => false);
             setTrackerData(() => false);
             setAllocateCodes(() => false);
+            setNinetyCompletion(() => false);
+            setSeventyCompletion(() => false);
           }}
         >
           Completion Data
@@ -153,6 +160,8 @@ function ReviewProgress() {
             setProgressStats(() => false);
             setTrackerData(() => false);
             setAllocateCodes(() => false);
+            setNinetyCompletion(() => false);
+            setSeventyCompletion(() => false);
           }}
         >
           Certificate Allocation
@@ -169,6 +178,8 @@ function ReviewProgress() {
                   setGetRawSpreadsheet((prevState) => !prevState);
                   setFilteredCompletionSpreadsheet(() => false);
                   setCompletedSpreadsheet(() => false);
+                  setNinetyCompletion(() => false);
+                  setSeventyCompletion(() => false);
                 }}
               >
                 Raw Progress Data
@@ -180,6 +191,8 @@ function ReviewProgress() {
                   setGetRawSpreadsheet(() => false);
                   setFilteredCompletionSpreadsheet((prevState) => !prevState);
                   setCompletedSpreadsheet(() => false);
+                  setNinetyCompletion(() => false);
+                  setSeventyCompletion(() => false);
                 }}
               >
                 Filtered Data
@@ -191,9 +204,37 @@ function ReviewProgress() {
                   setGetRawSpreadsheet(() => false);
                   setFilteredCompletionSpreadsheet(() => false);
                   setCompletedSpreadsheet((prevState) => !prevState);
+                  setNinetyCompletion(() => false);
+                  setSeventyCompletion(() => false);
                 }}
               >
                 Completion Spreadsheet
+              </Button>
+
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+                  setGetRawSpreadsheet(() => false);
+                  setFilteredCompletionSpreadsheet(() => false);
+                  setCompletedSpreadsheet(() => false);
+                  setNinetyCompletion(() => false);
+                  setSeventyCompletion((prevState) => !prevState);
+                }}
+              >
+                70% Completion
+              </Button>
+
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+                  setGetRawSpreadsheet(() => false);
+                  setFilteredCompletionSpreadsheet(() => false);
+                  setCompletedSpreadsheet(() => false);
+                  setSeventyCompletion(() => false);
+                  setNinetyCompletion((prevState) => !prevState);
+                }}
+              >
+                90% Completion
               </Button>
             </div>
           )
@@ -277,6 +318,8 @@ function ReviewProgress() {
         {codeTrackingSpreadsheet ? <Spreadsheet whichSheet="completion-code-tracker" data={combineCodeData(certificateCodes, diplomaCodes, courseCertificateTracker)} /> : null}
         {insertTrackerData ? <UploadFile uploadType="insert-certificate-tracker" /> : null}
         {allocateCodes ? <AllocateCodes data={courseCertificateTracker} /> : null}
+        {seventyCompletion ? <Spreadsheet whichSheet="seventy" data={filteredCompletion} /> : null}
+        {ninetyCompletion ? <Spreadsheet whichSheet="ninety" data={filteredCompletion} /> : null}
       </div>
 
       {
@@ -298,6 +341,18 @@ function ReviewProgress() {
                 Average Completion:
                 {' '}
                 {`${calculateAverageTime(filteredCompletion)}%`}
+              </div>
+
+              <div>
+                Total above 70% completion (below 100%):
+                {' '}
+                {`${calculateAbovePercentage(70, filteredCompletion)}`}
+              </div>
+
+              <div>
+                Total above 90% completion (below 100%):
+                {' '}
+                {`${calculateAbovePercentage(90, filteredCompletion)}`}
               </div>
             </div>
           )
