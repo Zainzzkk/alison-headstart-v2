@@ -25,15 +25,41 @@ const uploadToDatabase = async (tracker) => {
   return response;
 }
 
+// adds to tracker db when allocating certificate code
+const allocateCourseCertificateTrackerController = async (courseTracker) => {
+  const tracker = [];
+
+  // all received in body
+  const trackerToAdd = {
+    LearnerID: courseTracker.LearnerID,
+    CourseID: courseTracker.CourseID,
+    CourseName: courseTracker.CourseName,
+    Type: courseTracker.Type,
+    Completion: courseTracker.Completion,
+    Time: courseTracker.Time,
+    Status: courseTracker.Status,
+    Code: courseTracker.Code,
+  };
+
+  tracker.push(trackerToAdd);
+
+  const response = await uploadToDatabase(tracker);
+
+  return response
+}
+
+// uploads tracker
 const uploadTrackerController = async (courseTracker) => {
   const tracker = [];
 
   courseTracker.forEach((codeTrack) => {
     const trackerToAdd = {
+      // int
       LearnerID: parseInt(codeTrack['Learner ID']),
       CourseID: codeTrack['Course ID'],
       CourseName: codeTrack['Course Name'],
       Type: codeTrack['Type'],
+      // int
       Completion: parseInt(codeTrack['Completion']),
       // converts to seconds
       Time: convertTotalDurationToEpoch(codeTrack['Time']),
@@ -90,4 +116,21 @@ const uploadCourseCertificateTrackerManual = async (req, res) => {
   }
 };
 
-module.exports = { uploadCourseCertificateTracker, uploadCourseCertificateTrackerManual }
+// handles allocation upload of tracker
+const allocateCourseCertificateTracker = async (req, res) => {
+  try {
+    const toAllocate = req.body;
+
+    const { status, message } = await allocateCourseCertificateTrackerController(toAllocate);
+
+    res.status(status).send({ message });
+  } catch (error) {
+    console.error('Try-catch uploadCourseCertificateTrackerManual - Error uploading manual course certificate data to the database', { error });
+    res.status(500).send({
+      message: `Try-catch uploadCourseCertificateTrackerManual - Failed to import manual course certificate data into database! ${error}`,
+      error: error.message,
+    });
+  }
+};
+
+module.exports = { uploadCourseCertificateTracker, uploadCourseCertificateTrackerManual, uploadToDatabase, allocateCourseCertificateTracker }

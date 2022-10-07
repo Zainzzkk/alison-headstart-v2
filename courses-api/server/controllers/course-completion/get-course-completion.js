@@ -52,4 +52,4 @@ const getCourseCompletion = async (req, res) => {
   }
 };
 
-module.exports = { getCourseCompletionRaw, getCourseCompletion }
+module.exports = { getCourseCompletionRaw, getCourseCompletion, getCourseCompletionController }

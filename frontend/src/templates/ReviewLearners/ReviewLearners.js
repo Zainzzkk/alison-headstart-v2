@@ -14,6 +14,7 @@ import getJKTracker from '../../controllers/LearnersStats/getJkTracker';
 import JamatkhanaGraph from '../_macros_/LearnersGraphs/Jamatkhana/JamatkhanaGraph';
 import AverageCourseTime from '../_macros_/LearnersStats/AverageCourseTime/AverageCourseTime';
 import TotalLoggedIn from '../_macros_/LearnersStats/TotalLoggedIn/TotalLoggedIn';
+import europePercentage from '../../helpers/europeLearnerStats';
 
 import './ReviewLearners.css';
 
@@ -310,9 +311,34 @@ function ReviewLearners() {
 
       {getTotalLearners ? (// eslint-disable-line
         <div className="total-learners">
-          Total learners:
-          {' '}
-          {learnersData.length}
+          <div>
+            Total learners:
+            {' '}
+            {learnersData.length}
+          </div>
+          <div>
+            Europe Percentage:
+            {' '}
+            {europePercentage(learnersData).percentage}
+          </div>
+
+          <div>
+            Europe Total:
+            {' '}
+            {europePercentage(learnersData).total}
+          </div>
+
+          <div>
+            UK Percentage:
+            {' '}
+            {europePercentage(learnersData).ukPercentage}
+          </div>
+
+          <div>
+            UK Total:
+            {' '}
+            {europePercentage(learnersData).ukTotal}
+          </div>
         </div>
       )
         : null}

@@ -2,9 +2,23 @@ const COURSESAPIURL = {
   ADDRESS: 'http://localhost:3001',
 };
 
+const LEARNERSAPIURL = {
+  ADDRESS: 'http://localhost:3002',
+};
+
 const EUROPE_CITIES = ['AMSTERDAM', 'BAD SALZUFLEN', 'BERLIN', 'COPENHAGEN', 'DRESDEN', 'DUBLIN',
   'Erfurt', 'ESSEN', 'FRANKFURT', 'FREIBURG', 'GOTHENBURG', 'HAMBURG', 'ITALY', 'LEIPZIG', 'LJUNGBY', 'MUNICH',
   'OLDENBURG', 'OSLO', 'POLAND', 'ROTTERDAM', 'STOCKHOLM', 'VIENNA', 'Wuppertal', 'ZEVENAAR',
 ];
 
-module.exports = { COURSESAPIURL, EUROPE_CITIES };
+const COURSE_TYPE = {
+  DIPLOMA: 'Diploma',
+  CERTIFICATE: 'Certificate',
+};
+
+module.exports = {
+  COURSESAPIURL,
+  LEARNERSAPIURL,
+  EUROPE_CITIES,
+  COURSE_TYPE,
+};

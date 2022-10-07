@@ -6,22 +6,52 @@ const getCertificateCodesController = async () => {
       return data;
     })
     .catch((err) => {
-      console.error('Some error occurred while retrieving DiplomaCertificates.', err)
+      console.error('Some error occurred while retrieving Certificate Codes.', err)
+    });
+}
+
+// returns unused certificate codes where status used is no
+const getUnusedCertificateCodesController = async () => {
+  return CourseCertificates.findAll({
+    raw: true,
+    where: {
+      Used: 'NO',
+    },
+  })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.error('Some error occurred while retrieving unused Certificate Codes.', err)
     });
 }
 
 // function to get course codes from database
-const getCertificateCodes = async (req, res) => {
+const getUnusedCertificateCodes = async (req, res) => {
   try {
-    const diplomaCodes = await getCertificateCodesController();
+    const certificateCodes = await getUnusedCertificateCodesController();
 
-    res.status(200).send(diplomaCodes);
+    res.status(200).send(certificateCodes);
   } catch (err) {
-    console.error('Try-catch - getDiplomaCodes - Error getting diploma codes', { err });
+    console.error('Try-catch - getUnusedCertificateCodes - Error getting unused certificate codes', { err });
     res.status(500).send({
-      message: `Try-catch - getDiplomaCodes - Error getting diploma codes ${{ err }}`,
+      message: `Try-catch - getUnusedCertificateCodes - Error getting unused certificate codes ${{ err }}`,
     });
   }
 };
 
-module.exports = { getCertificateCodes };
+// function to get course codes from database
+const getCertificateCodes = async (req, res) => {
+  try {
+    const certificateCodes = await getCertificateCodesController();
+
+    res.status(200).send(certificateCodes);
+  } catch (err) {
+    console.error('Try-catch - getCertificateCodes - Error getting certificate codes', { err });
+    res.status(500).send({
+      message: `Try-catch - getCertificateCodes - Error getting certificate codes ${{ err }}`,
+    });
+  }
+};
+
+module.exports = { getCertificateCodes, getUnusedCertificateCodes };
