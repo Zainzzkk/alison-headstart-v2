@@ -311,8 +311,8 @@ function ReviewProgress() {
       }
 
       <div className="spreadsheet-div">
-        {getRawSpreadsheet ? <Spreadsheet whichSheet="completion" data={rawCompletion} /> : null}
-        {filterCompletionSpreadsheet ? <Spreadsheet whichSheet="completion" data={filteredCompletion} /> : null}
+        {getRawSpreadsheet ? <Spreadsheet whichSheet="completion-raw" data={rawCompletion} /> : null}
+        {filterCompletionSpreadsheet ? <Spreadsheet whichSheet="completion-filtered" data={filteredCompletion} /> : null}
         {completedSpreadsheet ? <Spreadsheet whichSheet="completion-completed" data={filteredCompletion} /> : null}
         {courseCertificateSpreadsheet ? <Spreadsheet whichSheet="completion-certificate-tracker" data={courseCertificateTracker} /> : null}
         {codeTrackingSpreadsheet ? <Spreadsheet whichSheet="completion-code-tracker" data={combineCodeData(certificateCodes, diplomaCodes, courseCertificateTracker)} /> : null}
