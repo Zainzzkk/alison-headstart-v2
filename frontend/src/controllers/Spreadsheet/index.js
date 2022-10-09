@@ -1,8 +1,14 @@
+import React from 'react';
+import { GridActionsCellItem } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import convertSecondsToTimestamp from '../../helpers/convertSecondsToTimestamp';
 import getJamatKhanaGraph from '../Graphs/getJamatKhanaGraph';
 import processJamatkhanaGraphData from '../../helpers/processJamatkhanaGraphData';
 import processTrackingChanges from '../../helpers/processTrackingChanges';
 import findAbovePercentage from '../../helpers/findAbovePercentage';
+import deleteRawCourse from '../Completion/deleteRawCourse';
+import deleteFilteredCourse from '../Completion/deleteFilteredCourse';
 
 import { EUROPE_CITIES } from '../../constants';
 
@@ -171,7 +177,7 @@ function processJKTracker(data) {
 }
 
 // processes completion spreadsheets for raw and filtered data
-function processCompletion(data) {
+function processCompletion(data, type) {
   const rowsAndColumns = {
     rows: [],
     columns: [
@@ -181,6 +187,28 @@ function processCompletion(data) {
       { field: 'coursename', headerName: 'Course Name', width: 600 },
       { field: 'completion', headerName: 'Completion', width: 200 },
       { field: 'time', headerName: 'Time', width: 200 },
+      {
+        field: 'actions',
+        type: 'actions',
+        width: 80,
+        getActions: (params) => [
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={() => {
+              // gets row
+              const { row } = params;
+              // to choose between raw or filtered table
+              if (type === 'raw') {
+                deleteRawCourse(row).then((response) => console.log(response));
+              } else {
+                deleteFilteredCourse(row).then((response) => console.log(response));
+              }
+            }}
+            showInMenu
+          />,
+        ],
+      },
     ],
   };
 
@@ -376,8 +404,10 @@ export default function getSpreadSheetDatafromData(type, data) {
       return processGenderTracker(data);
     case 'jk-tracker':
       return processJKTracker(data);
-    case 'completion':
-      return processCompletion(data);
+    case 'completion-raw':
+      return processCompletion(data, 'raw');
+    case 'completion-filtered':
+      return processCompletion(data, 'filtered');
     case 'completion-completed':
       return processCompleted(data);
     case 'completion-certificate-tracker':
