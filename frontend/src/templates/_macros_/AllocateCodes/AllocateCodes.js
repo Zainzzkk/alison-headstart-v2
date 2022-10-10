@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import findNotAllocated from '../../../helpers/findNotAllocated';
 import convertSecondsToTimestamp from '../../../helpers/convertSecondsToTimestamp';
 import getTotalCertificatesUser from '../../../helpers/getTotalCertificatesUser';
-import allocateCodeController from '../../../controllers/Completion/allocateCode';
+import allocateCodeController, { allocateTracker } from '../../../controllers/Completion/allocateCode';
 import unallocate from '../../../controllers/Completion/unallocate';
 import getLearner from '../../../controllers/LearnersData/getLearner';
 import determineCourseType from '../../../helpers/getCourseType';
@@ -44,7 +44,7 @@ function AllocateCodes(props) {
     }
     return (
       // if code exists for allocation (if not blank or error)
-      rowToChange.code !== '' && rowToChange.code !== 'error'
+      rowToChange.code && rowToChange.code !== '' && rowToChange.code !== 'error'
         ? (
           <Button
             variant="contained"
@@ -65,33 +65,62 @@ function AllocateCodes(props) {
   const allocateCode = (rowToAllocate) => {
     const { row: rowToChange } = rowToAllocate;
 
-    return (
-      // if YES selected for allocation
-      rowToChange.status === 'YES'
-        ? (
-          <Button
-            variant="contained"
-            onClick={() => {
-              // allocates codes in controller and adds to row
-              allocateCodeController(rowToChange).then((result) => {
-                // copy of rows array
-                const changedRows = [...rows];
-                // finds index for row in question in state rows
-                const rowIndex = changedRows.findIndex((eachRow) => eachRow.id === rowToChange.id && eachRow.learnerid === rowToChange.learnerid);
-                // allocates code to array copy
-                changedRows[rowIndex].code = result;
-                // changes status
-                changedRows[rowIndex].status = 'ALLOCATED';
-                // overwrites row with change
-                setRows(changedRows);
-              });
-            }}
-          >
-            Allocate
-          </Button>
-        )
-        : null
-    );
+    // if YES selected for allocation
+    if (rowToChange.status === 'YES') {
+      return (
+
+        <Button
+          variant="contained"
+          onClick={() => {
+            // allocates codes in controller and adds to row
+            allocateCodeController(rowToChange).then((result) => {
+              // copy of rows array
+              const changedRows = [...rows];
+              // finds index for row in question in state rows
+              const rowIndex = changedRows.findIndex((eachRow) => eachRow.id === rowToChange.id && eachRow.learnerid === rowToChange.learnerid);
+              // allocates code to array copy
+              changedRows[rowIndex].code = result;
+              // changes status
+              changedRows[rowIndex].status = 'ALLOCATED';
+              // overwrites row with change
+              setRows(changedRows);
+            });
+          }}
+        >
+          Allocate
+        </Button>
+      );
+    }
+    if (rowToChange.status === 'NO' || rowToChange.status === 'NO AS MAX RECEIVED' || rowToChange.status === 'UNWANTED') {
+      return (
+        <Button
+          variant="contained"
+          onClick={() => {
+            const codeType = {
+              type: determineCourseType(rowToChange.coursename),
+              code: null,
+            };
+            // updates tracker with type
+            allocateTracker(rowToChange, codeType).then(() => {
+              // copy of rows array
+              const changedRows = [...rows];
+              // finds index for row in question in state rows
+              const rowIndex = changedRows.findIndex((eachRow) => eachRow.id === rowToChange.id && eachRow.learnerid === rowToChange.learnerid);
+              // allocates code to array copy
+              changedRows[rowIndex].code = null;
+              // changes status
+              changedRows[rowIndex].status = `${rowToChange.status} DONE`;
+              // overwrites row with change
+              setRows(changedRows);
+            });
+          }}
+        >
+          Update
+        </Button>
+      );
+    }
+
+    return null;
   };
 
   // columns for ID

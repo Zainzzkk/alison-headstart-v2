@@ -200,7 +200,6 @@ function UploadFile(props) {
 
   return (
     <div>
-      {uploadType}
       <div>
         <Button variant="upload" {...getRootProps()}>
           <input {...getInputProps()} />

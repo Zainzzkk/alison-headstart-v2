@@ -45,7 +45,7 @@ async function allocateCode(codeToUse) {
 }
 
 // updates tracker
-async function allocateTracker(toAllocate, codeToUse) {
+export async function allocateTracker(toAllocate, codeToUse) {
   // sets body for tracker
   const trackerBody = {
     LearnerID: toAllocate.learnerid,
