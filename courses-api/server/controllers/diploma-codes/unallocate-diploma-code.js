@@ -1,6 +1,12 @@
 const DiplomaCertificates = require('../../models/DiplomaCertificate');
 
 const unallocateDiplomaController = async (params) => {
+  if (!params.code) {
+    return {
+      status: 404,
+      message: 'Code is null',
+    }
+  }
   // sets to no and null to unallocate
   const unallocate = {
     Used: 'NO',

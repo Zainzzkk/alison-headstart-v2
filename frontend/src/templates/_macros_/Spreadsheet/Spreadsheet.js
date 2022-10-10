@@ -45,7 +45,6 @@ function Spreadsheet(props) {
 
   return (
     <div>
-      {whichSheet}
       <div style={{ height: '60vh', width: '80vw' }} className="spreadsheet">
         <DataGrid
           rows={rows}

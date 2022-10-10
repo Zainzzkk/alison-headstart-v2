@@ -1,6 +1,13 @@
 const CourseCertificates = require('../../models/CourseCertificates');
 
 const unallocateCertificateController = async (params) => {
+  if (!params.code) {
+    return {
+      status: 404,
+      message: 'Code is null',
+    }
+  }
+
   // sets to null and no so not allocated
   const unallocate = {
     Used: 'NO',

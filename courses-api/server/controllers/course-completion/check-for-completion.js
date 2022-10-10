@@ -6,7 +6,7 @@ const determineCourseType = require('../../helpers/determineCourseType.helper');
 // checks courses which are completed and then adds them to tracker
 const checkForCompletionController = async (courses, completionTracker) => {
   // checks if completed (100%) - add if more conditions needed such as time
-  const completed = courses.filter((course) => course.Completion === 100);
+  const completed = courses.filter((course) => ((course.Completion === 100) && course.Time >= 3000));
   const courseToAdd = [];
 
   completed.forEach((course) => {

@@ -91,9 +91,9 @@ function JamatkhanaGraph(props) {
 
   return (
     <div className="bar-chart">
-      <ResponsiveContainer width="90%" height="90%">
+      <ResponsiveContainer width="100%" height="90%">
         <BarChart
-          width={800}
+          width={1200}
           height={300}
           data={barData}
           layout="vertical"
