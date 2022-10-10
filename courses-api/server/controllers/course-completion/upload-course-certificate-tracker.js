@@ -133,4 +133,9 @@ const allocateCourseCertificateTracker = async (req, res) => {
   }
 };
 
-module.exports = { uploadCourseCertificateTracker, uploadCourseCertificateTrackerManual, uploadToDatabase, allocateCourseCertificateTracker }
+module.exports = {
+  uploadCourseCertificateTracker,
+  uploadCourseCertificateTrackerManual,
+  uploadToDatabase,
+  allocateCourseCertificateTracker
+}
