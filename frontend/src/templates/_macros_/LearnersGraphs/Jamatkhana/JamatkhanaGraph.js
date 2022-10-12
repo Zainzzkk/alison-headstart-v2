@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   BarChart,
   Bar,
@@ -11,6 +11,8 @@ import {
 } from 'recharts';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import { useCurrentPng } from 'recharts-to-png';
+import FileSaver from 'file-saver';
 
 import getJamatKhanaGraph from '../../../../controllers/Graphs/getJamatKhanaGraph';
 import processJamatkhanaGraphData from '../../../../helpers/processJamatkhanaGraphData';
@@ -33,6 +35,18 @@ function JamatkhanaGraph(props) {
   const [barData, setBarData] = useState([]);
   const [processed, setProcessed] = useState(false);
   const [processedData, setProcessedData] = useState(false);
+
+  const [getPng, { ref, isLoading }] = useCurrentPng();
+
+  const handleDownload = useCallback(async () => {
+    const png = await getPng();
+
+    // Verify that png is not undefined
+    if (png) {
+      // Download with FileSaver
+      FileSaver.saveAs(png, `jk-chart.png`);
+    }
+  }, [getPng]);
 
   // adds to state array for barData for graph
   const addToBarArray = (bar) => {
@@ -104,6 +118,7 @@ function JamatkhanaGraph(props) {
             left: 50,
             bottom: 30,
           }}
+          ref={ref}
         >
           <XAxis type="number">
             <Label value="Percentage" dy={30} />
@@ -121,6 +136,10 @@ function JamatkhanaGraph(props) {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
+
+      <button type="button" onClick={handleDownload}>
+        {isLoading ? 'Downloading...' : 'Download Chart'}
+      </button>
     </div>
   );
 }

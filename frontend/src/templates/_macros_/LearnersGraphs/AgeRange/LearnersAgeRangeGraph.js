@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   BarChart,
   Bar,
@@ -9,6 +9,8 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import PropTypes from 'prop-types';
+import { useCurrentPng } from 'recharts-to-png';
+import FileSaver from 'file-saver';
 
 import getLeanerAgeRangeGraph from '../../../../controllers/Graphs/getLearnerAgeRangeGraph';
 import processAgeRangeGraphData from '../../../../helpers/processAgeRangeGraphData';
@@ -25,11 +27,22 @@ function LearnersAgeRangeGraph(props) {
   };
 
   const { data } = props;
+  const [getPng, { ref, isLoading }] = useCurrentPng();
 
   const [ageRanges, setAgeRanges] = useState({});
   const [barData, setBarData] = useState([]);
   const [processed, setProcessed] = useState(false);
   const [processedData, setProcessedData] = useState(false);
+
+  const handleDownload = useCallback(async () => {
+    const png = await getPng();
+
+    // Verify that png is not undefined
+    if (png) {
+      // Download with FileSaver
+      FileSaver.saveAs(png, `age-range-chart.png`);
+    }
+  }, [getPng]);
 
   // adds to state array for barData for graph
   const addToBarArray = (bar) => {
@@ -101,6 +114,7 @@ function LearnersAgeRangeGraph(props) {
             left: 20,
             bottom: 30,
           }}
+          ref={ref}
         >
           <XAxis type="number">
             <Label value="Percentage" dy={30} />
@@ -112,6 +126,10 @@ function LearnersAgeRangeGraph(props) {
           <Bar dataKey="percentage" fill="#339933" label={renderCustomBarLabel} />
         </BarChart>
       </ResponsiveContainer>
+
+      <button type="button" onClick={handleDownload}>
+        {isLoading ? 'Downloading...' : 'Download Chart'}
+      </button>
     </div>
   );
 }
