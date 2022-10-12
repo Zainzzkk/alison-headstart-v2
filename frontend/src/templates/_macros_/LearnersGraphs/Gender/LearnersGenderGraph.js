@@ -1,8 +1,10 @@
 import {
   PieChart, Pie, ResponsiveContainer, Sector,
 } from 'recharts';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useCurrentPng } from 'recharts-to-png';
+import FileSaver from 'file-saver';
 
 import getLearnersGenderData from '../../../../controllers/Graphs/getLearnerGenderGraph';
 
@@ -21,6 +23,17 @@ function LearnersGenderGraph(props) {
 
   const [males, setMales] = useState(0);
   const [females, setFemales] = useState(0);
+  const [getPng, { ref, isLoading }] = useCurrentPng();
+
+  const handleDownload = useCallback(async () => {
+    const png = await getPng();
+
+    // Verify that png is not undefined
+    if (png) {
+      // Download with FileSaver
+      FileSaver.saveAs(png, `gender-chart.png`);
+    }
+  }, [getPng]);
 
   useEffect(() => {
     // processes gender data into males and females
@@ -92,8 +105,10 @@ function LearnersGenderGraph(props) {
 
   return (
     <div className="pie-chart">
-      <ResponsiveContainer height="100%" width="100%">
-        <PieChart>
+      <ResponsiveContainer height="90%" width="90%">
+        <PieChart
+          ref={ref}
+        >
           <Pie
             data={pieChartData}
             dataKey="value"
@@ -106,6 +121,10 @@ function LearnersGenderGraph(props) {
           />
         </PieChart>
       </ResponsiveContainer>
+
+      <button type="button" onClick={handleDownload}>
+        {isLoading ? 'Downloading...' : 'Download Chart'}
+      </button>
     </div>
   );
 }

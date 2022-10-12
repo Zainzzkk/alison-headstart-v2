@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbarExport } from '@mui/x-data-grid';
 import PropTypes from 'prop-types';
 import getSpreadSheetDatafromData from '../../../controllers/Spreadsheet';
 
 import './Spreadsheet.css';
+
+function CustomToolbar() {
+  return (
+    <GridToolbarExport sx={{ height: '5vh' }} />
+  );
+}
 
 function Spreadsheet(props) {
   // default props to remove errors
@@ -45,7 +51,7 @@ function Spreadsheet(props) {
 
   return (
     <div>
-      <div style={{ height: '60vh', width: '80vw' }} className="spreadsheet">
+      <div style={{ height: '60vh', width: '95vw' }} className="spreadsheet">
         <DataGrid
           rows={rows}
           columns={columns}
@@ -54,6 +60,9 @@ function Spreadsheet(props) {
               whichSheet.includes('completion') || whichSheet === 'seventy' || whichSheet === 'ninety'
             ) ? columnVisibilityModel : {}
           }
+          components={{
+            Toolbar: CustomToolbar,
+          }}
         />
       </div>
     </div>

@@ -350,15 +350,15 @@ function ReviewProgress() {
               </div>
 
               <div>
-                Total above 75% completion (below 100%):
+                Total above 70% completion (below 100%):
                 {' '}
-                {`${calculateAbovePercentage(75, filteredCompletion).count}`}
+                {`${calculateAbovePercentage(70, filteredCompletion).count}`}
               </div>
 
               <div>
-                Percentage of above 75% completion (below 100%):
+                Percentage of above 70% completion (below 100%):
                 {' '}
-                {`${calculateAbovePercentage(75, filteredCompletion).percentage}%`}
+                {`${calculateAbovePercentage(70, filteredCompletion).percentage}%`}
               </div>
 
               <div>
