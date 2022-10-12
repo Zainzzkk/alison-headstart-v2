@@ -5,6 +5,10 @@ export default function calculateAbovePercentage(number, tracker) {
 
   // adds 1 to counter if above percentage and below 100
   const count = tracker.reduce((counter, each) => ((each.Completion >= percentage) && (each.Completion < 100)) ? counter += 1 : counter, 0); // eslint-disable-line
+  const percentageOfPercentage = (count / tracker.length) * 100;
 
-  return count;
+  return {
+    count,
+    percentage: percentageOfPercentage.toFixed(2),
+  };
 }
