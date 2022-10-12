@@ -334,7 +334,13 @@ function ReviewProgress() {
               <div>
                 Total Completed:
                 {' '}
-                {getTotalCompletedCourses(filteredCompletion)}
+                {getTotalCompletedCourses(filteredCompletion).count}
+              </div>
+
+              <div>
+                Total Completed:
+                {' '}
+                {`${getTotalCompletedCourses(filteredCompletion).percentage}%`}
               </div>
 
               <div>
@@ -344,15 +350,26 @@ function ReviewProgress() {
               </div>
 
               <div>
-                Total above 70% completion (below 100%):
+                Total above 75% completion (below 100%):
                 {' '}
-                {`${calculateAbovePercentage(70, filteredCompletion)}`}
+                {`${calculateAbovePercentage(75, filteredCompletion).count}`}
+              </div>
+
+              <div>
+                Percentage of above 75% completion (below 100%):
+                {' '}
+                {`${calculateAbovePercentage(75, filteredCompletion).percentage}%`}
               </div>
 
               <div>
                 Total above 90% completion (below 100%):
                 {' '}
-                {`${calculateAbovePercentage(90, filteredCompletion)}`}
+                {`${calculateAbovePercentage(90, filteredCompletion).count}`}
+              </div>
+              <div>
+                Percentage of above 90% completion (below 100%):
+                {' '}
+                {`${calculateAbovePercentage(90, filteredCompletion).percentage}%`}
               </div>
             </div>
           )
