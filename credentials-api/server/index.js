@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const sequelize = require('../config/database');
 const configurePassport = require('./passport');
 const { router, authRouter } = require('./routes');
+const rateLimiterUsingThirdParty = require('./middleware/rateLimiter');
 
 const PORT = process.env.PORT || 3003;
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(passport.initialize());
 app.use(cookieParser());
+app.use(rateLimiterUsingThirdParty);
 
 app.use(cors(
   {

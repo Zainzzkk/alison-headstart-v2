@@ -29,9 +29,7 @@ const userToReturn = (user) => ({
 
 module.exports = (passport) => {
   try {
-    console.log('hereee');
     passport.use(new JwtStrategy(options, ((jwtPayload, done) => {
-      console.log(jwtPayload);
       // finds user
       Users.findAll({
         raw: true,
@@ -39,7 +37,6 @@ module.exports = (passport) => {
           USERNAME: jwtPayload.username,
         },
       }).then((user) => {
-        console.log(user);
         // if user exists
         if (user) {
           //jwt identifier

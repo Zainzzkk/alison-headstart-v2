@@ -49,8 +49,14 @@ const login = async (req, res) => {
     }
 
     // returns cookies with token and username
-    res.cookie('token', tokenObject.token, { httpOnly: true });
-    res.cookie('username', user.USERNAME, { httpOnly: true });
+    res.cookie('token', tokenObject.token, {
+      secure: true,
+      httpOnly: true
+    });
+    res.cookie('username', user.USERNAME, {
+      secure: true,
+      httpOnly: true
+    });
 
     return res.status(200).json({ success: true, status: 200 });
   } catch (error) {

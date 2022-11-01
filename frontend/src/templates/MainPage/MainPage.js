@@ -26,6 +26,7 @@ function MainPage() {
 
   const logout = () => {
     logoutController();
+    navigate('/');
   };
 
   return (
