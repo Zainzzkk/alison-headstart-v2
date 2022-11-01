@@ -22,6 +22,8 @@ import calculateAbovePercentage from '../../helpers/calculateAbovePercentage';
 import Spreadsheet from '../_macros_/Spreadsheet/Spreadsheet';
 import AllocateCodes from '../_macros_/AllocateCodes/AllocateCodes';
 
+import { validateSession } from '../../controllers/Credentials/validateSession';
+
 import './ReviewProgress.css';
 
 function ReviewProgress() {
@@ -48,6 +50,15 @@ function ReviewProgress() {
 
   // useEffect so only called once instead of spamming
   useEffect(() => {
+    const authorise = () => {
+      validateSession().then((response) => {
+        if (response !== 200) {
+          navigate('/not-found');
+        }
+      });
+    };
+
+    authorise();
     // gets all completion data and puts it in state
     const getDataFromApi = () => {
       getRawCompletion().then((response) => {
@@ -94,8 +105,8 @@ function ReviewProgress() {
     <div className="Page">
       <div>
         <header className="image-align">
-          <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" onClick={() => navigate('/')} />
-          <img src={HeadstartLogo} className="Headstart-logo" alt="Headstart Logo" onClick={() => navigate('/')} />
+          <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" onClick={() => navigate('/dashboard')} />
+          <img src={HeadstartLogo} className="Headstart-logo" alt="Headstart Logo" onClick={() => navigate('/dashboard')} />
         </header>
       </div>
       <div className="header">

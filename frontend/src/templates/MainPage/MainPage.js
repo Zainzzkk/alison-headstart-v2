@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,8 +6,27 @@ import AlisonLogo from '../../assets/AlisonLogo.png';
 import HeadstartLogo from '../../assets/HeadstartLogo.png';
 import './MainPage.css';
 
+import { validateSession } from '../../controllers/Credentials/validateSession';
+import { logoutController } from '../../controllers/Credentials/logoutController';
+
 function MainPage() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const authorise = () => {
+      validateSession().then((response) => {
+        if (response !== 200) {
+          navigate('/not-found');
+        }
+      });
+    };
+
+    authorise();
+  }, []);
+
+  const logout = () => {
+    logoutController();
+  };
 
   return (
     <div className="App">
@@ -15,6 +34,7 @@ function MainPage() {
         <header className="image-align">
           <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" />
           <img src={HeadstartLogo} className="Headstart-logo" alt="Headstart Logo" />
+          <Button className="logout-button" onClick={() => logout()}>Logout</Button>
         </header>
       </div>
 
