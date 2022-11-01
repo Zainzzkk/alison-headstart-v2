@@ -1,5 +1,5 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const { COURSESAPIURL, LEARNERSAPIURL } = require('./constants');
+const { COURSESAPIURL, LEARNERSAPIURL, CREDENTIALSAPIURL } = require('./constants');
 
 // eslint-disable-next-line func-names
 module.exports = function (app) {
@@ -22,6 +22,19 @@ module.exports = function (app) {
       changeOrigin: true,
       pathRewrite: {
         '^/learners-api': '/',
+      },
+      headers: {
+        Connection: 'keep-alive',
+      },
+    }),
+  );
+
+  app.use(
+    createProxyMiddleware('/credentials-api', {
+      target: CREDENTIALSAPIURL.ADDRESS,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/credentials-api': '/',
       },
       headers: {
         Connection: 'keep-alive',

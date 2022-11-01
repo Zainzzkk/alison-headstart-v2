@@ -6,6 +6,7 @@ import HeadstartLogo from '../../assets/HeadstartLogo.png';
 import Spreadsheet from '../_macros_/Spreadsheet/Spreadsheet';
 import CourseGraphs from '../_macros_/CourseGraphs/CourseGraphs';
 import getAlisonCatalogue from '../../controllers/AlisonCatalogue/get-alison-catalogue';
+import { validateSession } from '../../controllers/Credentials/validateSession';
 
 import './ReviewCourses.css';
 
@@ -18,6 +19,16 @@ function ReviewCourses() {
 
   // useEffect so only called once instead of spamming
   useEffect(() => {
+    const authorise = () => {
+      validateSession().then((response) => {
+        if (response !== 200) {
+          navigate('/not-found');
+        }
+      });
+    };
+
+    authorise();
+
     const getDataFromApi = () => {
       getAlisonCatalogue().then((response) => {
         if (response.length) {
@@ -33,8 +44,8 @@ function ReviewCourses() {
     <div className="Page">
       <div>
         <header className="image-align">
-          <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" onClick={() => navigate('/')} />
-          <img src={HeadstartLogo} className="Headstart-logo" alt="Headstart Logo" onClick={() => navigate('/')} />
+          <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" onClick={() => navigate('/dashboard')} />
+          <img src={HeadstartLogo} className="Headstart-logo" alt="Headstart Logo" onClick={() => navigate('/dashboard')} />
         </header>
       </div>
       <div className="header">

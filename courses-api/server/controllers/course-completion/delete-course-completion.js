@@ -33,8 +33,6 @@ const deleteSpecificRaw = async (req, res) => {
   try {
     const course = req.body;
 
-    console.log(course);
-
     const { message, status } = await deleteSpecificRawController(course);
 
     res.status(status).send({ message });
@@ -78,8 +76,6 @@ const deleteSpecificFilteredController = async (course) => {
 const deleteSpecificFiltered = async (req, res) => {
   try {
     const course = req.body;
-
-    console.log(course);
 
     const { message, status } = await deleteSpecificFilteredController(course);
 

@@ -16,6 +16,8 @@ import AverageCourseTime from '../_macros_/LearnersStats/AverageCourseTime/Avera
 import TotalLoggedIn from '../_macros_/LearnersStats/TotalLoggedIn/TotalLoggedIn';
 import europePercentage from '../../helpers/europeLearnerStats';
 
+import { validateSession } from '../../controllers/Credentials/validateSession';
+
 import './ReviewLearners.css';
 
 function ReviewLearners() {
@@ -42,6 +44,15 @@ function ReviewLearners() {
 
   // useEffect so only called once instead of spamming
   useEffect(() => {
+    const authorise = () => {
+      validateSession().then((response) => {
+        if (response !== 200) {
+          navigate('/not-found');
+        }
+      });
+    };
+
+    authorise();
     // gets all learner data and puts it in state
     const getDataFromApi = () => {
       getAllLearners().then((response) => {
@@ -76,8 +87,8 @@ function ReviewLearners() {
     <div className="Page">
       <div>
         <header className="image-align">
-          <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" onClick={() => navigate('/')} />
-          <img src={HeadstartLogo} className="Headstart-logo" alt="Headstart Logo" onClick={() => navigate('/')} />
+          <img src={AlisonLogo} className="Alison-logo" alt="Alison Logo" onClick={() => navigate('/dashboard')} />
+          <img src={HeadstartLogo} className="Headstart-logo" alt="Headstart Logo" onClick={() => navigate('/dashboard')} />
         </header>
       </div>
       <div className="header">

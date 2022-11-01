@@ -75,4 +75,12 @@ Button {
   color: white;
 }
 
-
+.logout-button {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  width: auto;
+  margin-top: 20px;
+  position: absolute;
+  right: 0;
+  background-color: gray;
+}
