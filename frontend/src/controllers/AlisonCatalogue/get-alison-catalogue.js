@@ -11,7 +11,7 @@ const getAlisonCatalogue = async () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Success: getAlisonCatalogue');
         return data;
       });
   } catch (err) {

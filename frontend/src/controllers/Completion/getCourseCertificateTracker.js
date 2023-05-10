@@ -11,7 +11,7 @@ const getCourseCertificateTracker = async () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Success: getCourseCertificateTracker');
         return data;
       });
   } catch (err) {

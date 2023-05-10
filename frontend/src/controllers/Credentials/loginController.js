@@ -12,7 +12,7 @@ const loginController = async (loginData) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Success:');
         return {
           status: data.status,
           message: data?.msg,

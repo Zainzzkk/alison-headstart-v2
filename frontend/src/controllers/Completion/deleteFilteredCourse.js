@@ -13,7 +13,7 @@ export default async function deleteFilteredCourse(course) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Success: deleteFilteredCourse');
         return data;
       });
   } catch (err) {

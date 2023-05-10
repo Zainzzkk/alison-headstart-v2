@@ -13,7 +13,7 @@ const allocateDiplomaCode = async (code) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Success:');
         return data;
       });
   } catch (err) {

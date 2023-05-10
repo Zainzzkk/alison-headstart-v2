@@ -9,6 +9,7 @@ import processTrackingChanges from '../../helpers/processTrackingChanges';
 import findAbovePercentage from '../../helpers/findAbovePercentage';
 import deleteRawCourse from '../Completion/deleteRawCourse';
 import deleteFilteredCourse from '../Completion/deleteFilteredCourse';
+import getLearner from '../LearnersData/getLearner';
 
 import { EUROPE_CITIES } from '../../constants';
 
@@ -304,6 +305,15 @@ function processCompletionCertificateTracker(data) {
   return rowsAndColumns;
 }
 
+function getLearnerName(learnerId) {
+  if (!learnerId) {
+    return '';
+  }
+  const learnerName = getLearner(learnerId);
+
+  return learnerName;
+}
+
 // processes certificate allocation spreadsheet
 function processCodeTracker(data) {
   const rowsAndColumns = {
@@ -331,6 +341,7 @@ function processCodeTracker(data) {
   codes.forEach((code) => {
     // finds and returns course details if codes match
     const completed = data.completionTracker.find((completion) => completion.Code === code.Code);
+    const name = Promise.resolve(getLearnerName(completed?.LearnerID));
 
     // combines 2 arrays together for rows
     const trackerToAdd = {
@@ -341,7 +352,7 @@ function processCodeTracker(data) {
       expiry: code.Expiry,
       // if exists or empty string
       learnerid: completed?.LearnerID ?? '',
-      learnername: '',
+      learnername: name.then((response) => response.Name),
       courseid: completed?.CourseID ?? '',
       coursename: completed?.CourseName ?? '',
       date: code.Date,

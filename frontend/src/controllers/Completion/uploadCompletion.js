@@ -12,7 +12,7 @@ const uploadCourseCompletion = async (fileContents) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Success:');
         return data;
       });
   } catch (err) {
@@ -35,7 +35,7 @@ const uploadCourseCompletionManual = async (manualCourse) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Success:');
         return data;
       });
   } catch (err) {

@@ -13,7 +13,7 @@ const allocateCertificateTracker = async (code) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Success: allocateCertificateTracker');
         return data;
       });
   } catch (err) {

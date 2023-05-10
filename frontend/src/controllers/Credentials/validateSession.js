@@ -12,7 +12,7 @@ const validateSession = async () => {
     })
       .then((response) => response.status)
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Success:');
         return data;
       });
   } catch (err) {
