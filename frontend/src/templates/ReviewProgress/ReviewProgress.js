@@ -9,6 +9,7 @@ import UploadFile from '../_macros_/UploadFile/UploadFile';
 
 import getRawCompletion from '../../controllers/Completion/getRawCompletion';
 import getFilteredCompletion from '../../controllers/Completion/getFilteredCompletion';
+import getTopCourses from '../../controllers/Completion/getTopCourses';
 import getCourseCertificateTracker from '../../controllers/Completion/getCourseCertificateTracker';
 import getCertificateCodes from '../../controllers/CourseCodes/getCertificateCodes';
 import getDiplomaCodes from '../../controllers/DiplomaCodes/getDiplomaCodes';
@@ -35,6 +36,7 @@ function ReviewProgress() {
   const [getRawSpreadsheet, setGetRawSpreadsheet] = useState(false);
   const [filterCompletionSpreadsheet, setFilteredCompletionSpreadsheet] = useState(false);
   const [courseCertificateSpreadsheet, setCourseCertificateSpreadsheet] = useState(false);
+  const [topCoursesStats, setTopCoursesStats] = useState(false);
   const [completedSpreadsheet, setCompletedSpreadsheet] = useState(false);
   const [codeTrackingSpreadsheet, setCodeTrackingSpreadsheet] = useState(false);
   const [progressStats, setProgressStats] = useState(false);
@@ -44,6 +46,7 @@ function ReviewProgress() {
   const [allocateCodes, setAllocateCodes] = useState(false);
   const [rawCompletion, setRawCompletion] = useState([]);
   const [filteredCompletion, setFilteredCompletion] = useState([]);
+  const [topCourses, setTopCourses] = useState({});
   const [courseCertificateTracker, setCourseCertificateTracker] = useState([]);
   const [certificateCodes, setCertificateCodes] = useState([]);
   const [diplomaCodes, setDiplomaCodes] = useState([]);
@@ -70,6 +73,14 @@ function ReviewProgress() {
       getFilteredCompletion().then((response) => {
         if (response.length) {
           setFilteredCompletion(response);
+        }
+      });
+
+      getTopCourses().then((response) => {
+        if (Object.keys(response).length) {
+          setTopCourses(() => ({
+            ...response,
+          }));
         }
       });
 
@@ -132,6 +143,7 @@ function ReviewProgress() {
             setAllocateCodes(() => false);
             setNinetyCompletion(() => false);
             setSeventyCompletion(() => false);
+            setTopCoursesStats(() => false);
           }}
         >
           Get Progress Data
@@ -152,6 +164,7 @@ function ReviewProgress() {
             setAllocateCodes(() => false);
             setNinetyCompletion(() => false);
             setSeventyCompletion(() => false);
+            setTopCoursesStats(() => false);
           }}
         >
           Completion Data
@@ -173,6 +186,7 @@ function ReviewProgress() {
             setAllocateCodes(() => false);
             setNinetyCompletion(() => false);
             setSeventyCompletion(() => false);
+            setTopCoursesStats(() => false);
           }}
         >
           Certificate Allocation
@@ -191,6 +205,7 @@ function ReviewProgress() {
                   setCompletedSpreadsheet(() => false);
                   setNinetyCompletion(() => false);
                   setSeventyCompletion(() => false);
+                  setTopCoursesStats(() => false);
                 }}
               >
                 Raw Progress Data
@@ -204,6 +219,7 @@ function ReviewProgress() {
                   setCompletedSpreadsheet(() => false);
                   setNinetyCompletion(() => false);
                   setSeventyCompletion(() => false);
+                  setTopCoursesStats(() => false);
                 }}
               >
                 Filtered Data
@@ -217,6 +233,7 @@ function ReviewProgress() {
                   setCompletedSpreadsheet((prevState) => !prevState);
                   setNinetyCompletion(() => false);
                   setSeventyCompletion(() => false);
+                  setTopCoursesStats(() => false);
                 }}
               >
                 Completion Spreadsheet
@@ -230,6 +247,7 @@ function ReviewProgress() {
                   setCompletedSpreadsheet(() => false);
                   setNinetyCompletion(() => false);
                   setSeventyCompletion((prevState) => !prevState);
+                  setTopCoursesStats(() => false);
                 }}
               >
                 70% Completion
@@ -243,6 +261,7 @@ function ReviewProgress() {
                   setCompletedSpreadsheet(() => false);
                   setSeventyCompletion(() => false);
                   setNinetyCompletion((prevState) => !prevState);
+                  setTopCoursesStats(() => false);
                 }}
               >
                 90% Completion
@@ -262,6 +281,7 @@ function ReviewProgress() {
                   setCourseCertificateSpreadsheet(() => false);
                   setProgressStats(() => false);
                   setTrackerData((prevState) => !prevState);
+                  setTopCoursesStats(() => false);
                 }}
               >
                 Insert Certficate Tracker Data
@@ -273,6 +293,7 @@ function ReviewProgress() {
                   setCourseCertificateSpreadsheet((prevState) => !prevState);
                   setProgressStats(() => false);
                   setTrackerData(() => false);
+                  setTopCoursesStats(() => false);
                 }}
               >
                 Review All Certificate Tracking
@@ -284,9 +305,22 @@ function ReviewProgress() {
                   setCourseCertificateSpreadsheet(() => false);
                   setProgressStats((prevState) => !prevState);
                   setTrackerData(() => false);
+                  setTopCoursesStats(() => false);
                 }}
               >
                 Progress Stats
+              </Button>
+
+              <Button
+                className="button-nav-sub"
+                onClick={() => {
+                  setCourseCertificateSpreadsheet(() => false);
+                  setProgressStats(() => false);
+                  setTrackerData(() => false);
+                  setTopCoursesStats((prevState) => !prevState);
+                }}
+              >
+                Top courses
               </Button>
             </div>
           )
@@ -382,6 +416,19 @@ function ReviewProgress() {
                 {' '}
                 {`${calculateAbovePercentage(90, filteredCompletion).percentage}%`}
               </div>
+            </div>
+          )
+          : null
+      }
+
+      {
+        topCoursesStats
+          ? (
+            <div>
+              <pre>
+                {JSON.stringify(topCourses, null, 4)}
+                {' '}
+              </pre>
             </div>
           )
           : null
