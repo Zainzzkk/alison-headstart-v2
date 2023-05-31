@@ -7,6 +7,7 @@ const { uploadCourseCertificateTracker, uploadCourseCertificateTrackerManual, al
 const { checkForCompletion } = require('../controllers/course-completion/check-for-completion');
 const { unallocateCertificateTracker } = require('../controllers/course-completion/unallocate-certificate-tracker');
 const { deleteSpecificRaw, deleteSpecificFiltered } = require('../controllers/course-completion/delete-course-completion');
+const { getTopCourses } = require('../controllers/course-completion/get-top-courses');
 
 const routes = (app) => {
   router.post('/upload', uploadCourseCompletionStats);
@@ -21,6 +22,7 @@ const routes = (app) => {
   router.delete('/unallocate', unallocateCertificateTracker);
   router.delete('/delete-raw', deleteSpecificRaw);
   router.delete('/delete-filtered', deleteSpecificFiltered);
+  router.get('/top-courses', getTopCourses);
   app.use('/course-completion', router);
 };
 
